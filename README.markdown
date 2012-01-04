@@ -2,7 +2,7 @@
 
 JS widget to list github repositories. To see it in action, visit [gitview.logicalcognition.com](http://gitview.logicalcognition.com).
 
-![Alt text](http://logicalcognition.com/Projects/gitview/demo/screenshot.png)
+![Alt text](http://logicalcognition.com/Projects/gitview/demo/images/screenshot.png)
 
 ##Supported Browsers
 
@@ -14,6 +14,7 @@ JS widget to list github repositories. To see it in action, visit [gitview.logic
 ##Usage
 
 1. Paste into your page's HEAD
+
 	```console
 	<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js" type="text/javascript"></script>
 	<script src="http://logicalcognition.com/Projects/gitgraph/gitgraph.js"></script>
@@ -21,6 +22,7 @@ JS widget to list github repositories. To see it in action, visit [gitview.logic
 	```
 
 2. From within a <script> tag or a JS file
+	
 	```console
 	var view = new gitview({ 
 	  user    : 'bouchon',      // any github username

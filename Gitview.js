@@ -6,7 +6,7 @@ var Gitview = function(args){
 		var container = dojo.create('div',{
 			style:"width:440px;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white"
 		},this.domNode);
-		
+
 		//2. top (title, forks, watchers, etc.)
 		var top = dojo.create('div',{
 			style:"height:32px;line-height:38px;border-bottom:1px solid #DDD;"
@@ -164,3 +164,20 @@ var Gitview = function(args){
 		this.loadScript('http://logicalcognition.com/Projects/Gitgraph/Gitgraph.js',this.bootstrap.bind(this));	
 	}
 };
+
+//Make Jquery folks happy
+if (window.jQuery) {
+    jQuery.fn.gitview = function (args) {
+        if(!args || !args.user){
+			throw new Error('Gitview: missing user and/or domNode arg');
+		}else{
+			this.each(function () {
+	            var view = new Gitview({ 
+	                user    : args.user,     
+	                domNode : $(this)[0], 
+	                compact : args.compact || false
+	            });
+	        });
+		}
+    };
+}

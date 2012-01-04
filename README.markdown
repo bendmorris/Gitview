@@ -2,7 +2,7 @@
 
 JS widget to list github repositories. To see it in action, visit [gitview.logicalcognition.com](http://gitview.logicalcognition.com).
 
-![Alt text](http://logicalcognition.com/Projects/crisp.js/demo/screenshot.png)
+![Alt text](http://logicalcognition.com/Projects/gitview/demo/screenshot.png)
 
 ##Supported Browsers
 
@@ -12,29 +12,25 @@ JS widget to list github repositories. To see it in action, visit [gitview.logic
 * Internet Explorer 8+
 
 ##Usage
-###Build a fricken button
-```console
-var button = crisp.create({innerHTML: 'click me'});
-```
-###Build a fricken button and place it in the DOM
-```console
-var button = crisp.create({innerHTML: 'click me'});
-document.getElementById('foo').appendChild(button);
-```
-###Build a fricken button using all config options
-```console
-var args = {
-innerHTML: 'gordon',	// button text
-width: '100px',		// button width
-height: '40px',		// button height
-color: '#FF0022',	// text color
-bgColor: 'green',	// background color
-fontFamily: 'Arial',	// font face
-fontSize: '20px'	// font size
-}
-```
-###Further
-A button is just a regular element. To change its look or feel more than the in the example above, just create it and style it like you would any other element. Same goes for registering event handlers and positioning.
+
+1. Paste into your page's HEAD
+	```console
+	<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js" type="text/javascript"></script>
+	<script src="http://logicalcognition.com/Projects/gitgraph/gitgraph.js"></script>
+	<script src="http://logicalcognition.com/Projects/gitview/gitview.js"></script>
+	```
+
+2. From within a <script> tag or a JS file
+	```console
+	var view = new gitview({ 
+	  user    : 'bouchon',      // any github username
+	  domNode : document.body,  // domNode to attach to
+	  small   : false           // if set to true, will display smaller version of widget (no participation graph)
+	});
+	```
+##Issues & Features
+
+File under the Issues section and feel free to fork and pull-request
 
 ##License
 

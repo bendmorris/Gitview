@@ -44,16 +44,16 @@
 var view = new Gitview({ 
   user    : 'bouchon',      // any github username
   domNode : document.body,  // domNode to attach to
-  small   : false           // if set to true, will display smaller version of widget (no participation graph)
+  compact : false           // if set to true, will display smaller version of widget (no participation graph)
 });</pre>
 			<span class="examples">Issues & Features</span><br>
-			Report any issues and features (I'm sure I missed a lot of stuff) on <a href="http://github.com/bouchon/Gitview">Github</a>.
+			Report any issues and features (I'm sure I missed a lot of stuff) on <a href="http://github.com/bouchon/Gitview" target="_blank">Github</a>.
 		</div>
-		<a href="http://github.com/bouchon/Gitview"><img style="position: absolute; top: 0; right: 0; border: 0;" src="images/fork.png" alt="Fork me on GitHub"></a>
+		<a href="http://github.com/bouchon/Gitview" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="images/fork.png" alt="Fork me on GitHub"></a>
   	</body>
 	<script>
 		var g = new Gitview({user:'bouchon',domNode:document.getElementById('demoHolder1')});
-		var g = new Gitview({user:'bouchon',domNode:document.getElementById('demoHolder2'),small:true});
+		var g = new Gitview({user:'bouchon',domNode:document.getElementById('demoHolder2'),compact:true});
 		var r = dojo.create('span',{style:'position:absolute;top:240px;left:420px'},'demoHolder','before');
 		var s = dojo.create('span',{style:'position:absolute;top:240px;left:475px'},'demoHolder','before');
 		var regular = crisp.create({innerHTML:'regular',fontSize:'12px'});

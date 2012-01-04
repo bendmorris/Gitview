@@ -1,6 +1,6 @@
 var Gitview = function(args){
 	this.createRepoEntry = function(obj){
-		if(this.small){
+		if(this.compact){
 			var container = dojo.create('div',{
 				style:"width:440px;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white"
 			},this.domNode);
@@ -51,7 +51,7 @@ var Gitview = function(args){
 			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;margin-right:15px'
 		},stats);
 		
-		if(this.small){
+		if(this.compact){
 			var bottom = dojo.create('div',{
 				style:'height:30px;border-bottom-right-radius:3px;border-bottom-left-radius:3px;padding-bottom:5px;padding-top:5px'
 			},container);	
@@ -73,7 +73,7 @@ var Gitview = function(args){
 			style:'font:12px arial;margin-left:9px;'
 		},bottom);
 		
-		if(!this.small){
+		if(!this.compact){
 			var updated = dojo.create('div',{
 				innerHTML:'Last updated '+this.fixUpdateDate(obj.updated_at),
 				style:'font:11px arial;color:#888;margin-top:5px;margin-left:9px;'
@@ -148,7 +148,7 @@ var Gitview = function(args){
 		this.domNode = args.domNode;
 		this.user = args.user;
 		this.repos = [];
-		this.small = args.small==true ? true : false;
+		this.compact = args.compact==true ? true : false;
 		
 		if (!Function.prototype.bind)
 		  Function.prototype.bind = this.bind;

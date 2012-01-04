@@ -33,7 +33,7 @@ Small
 	var view = new Gitview({ 
 	  user    : 'bouchon',      // any github username
 	  domNode : document.body,  // domNode to attach to
-	  small   : false           // if set to true, will display smaller version of widget (no participation graph)
+	  copmact : false           // if set to true, will display smaller version of widget (no participation graph)
 	});
 	```
 ##Issues & Features

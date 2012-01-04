@@ -21,13 +21,13 @@ Small
 
 ##Usage
 
-Paste into your page's HEAD
+###Paste into your page's HEAD
 
 	```console
 	<script src="http://logicalcognition.com/Projects/Gitview/Gitview.js"></script>
 	```
 
-From within a script tag or a JS file
+###From within a script tag or a JS file
 	
 	```console
 	var view = new Gitview({ 
@@ -37,7 +37,7 @@ From within a script tag or a JS file
 	});
 	```
 	
-Or use it as a jQuery plugin
+###Or use it as a jQuery plugin
 	
 	```console
 	$('#foo').gitview({user: 'bouchon'});

@@ -2,7 +2,11 @@
 
 JS widget to list github repositories. To see it in action, visit [gitview.logicalcognition.com](http://gitview.logicalcognition.com).
 
+Regular
 ![Alt text](http://logicalcognition.com/Projects/gitview/demo/images/screenshot.png)
+
+Small
+![Alt text](http://logicalcognition.com/Projects/gitview/demo/images/screenshotSmall.png)
 
 ##Supported Browsers
 

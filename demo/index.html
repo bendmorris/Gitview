@@ -9,6 +9,7 @@
 		<script type="text/javascript" src="google-code-prettify/prettify.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js" type="text/javascript"></script>
 		<script src="http://logicalcognition.com/Projects/gitgraph/gitgraph.js"></script>
+		<script src="http://logicalcognition.com/Projects/crisp.js/crisp.min.js"></script>
 		<script src="../gitview.js"></script>
   	</head>
 	<body onload="prettyPrint()">
@@ -18,7 +19,10 @@
 		</div>
 		<div id="demo">
 			<span class="examples">Example</span><span class="features">Features</span><br>
-			<div id="demoHolder"></div>
+			<div id="demoHolder">
+				<div id="demoHolder1"></div>
+				<div id="demoHolder2" style="display:none;"></div>
+			</div>
 			<div id="featureHolder">
 				<ul>
 					<li>Single JS file</li>
@@ -50,6 +54,21 @@ var view = new gitview({
 		<a href="http://github.com/bouchon/gitview"><img style="position: absolute; top: 0; right: 0; border: 0;" src="images/fork.png" alt="Fork me on GitHub"></a>
   	</body>
 	<script>
-		var g = new gitview({user:'bouchon',domNode:document.getElementById('demoHolder')});
+		var g = new gitview({user:'bouchon',domNode:document.getElementById('demoHolder1')});
+		var g = new gitview({user:'bouchon',domNode:document.getElementById('demoHolder2'),small:true});
+		var r = dojo.create('span',{style:'position:absolute;top:240px;left:420px'},'demoHolder','before');
+		var s = dojo.create('span',{style:'position:absolute;top:240px;left:475px'},'demoHolder','before');
+		var regular = crisp.create({innerHTML:'regular',fontSize:'12px'});
+		r.appendChild(regular);
+		var small = crisp.create({innerHTML:'small',fontSize:'12px'});
+		s.appendChild(small);
+		dojo.connect(regular,'onclick',function(){
+			dojo.style('demoHolder1','display','block');
+			dojo.style('demoHolder2','display','none');
+		});
+		dojo.connect(small,'onclick',function(){
+			dojo.style('demoHolder2','display','block');
+			dojo.style('demoHolder1','display','none');
+		});
 	</script>
 </html>

@@ -79,7 +79,7 @@ var Gitview = function(args){
 				style:'font:11px arial;color:#888;margin-top:5px;margin-left:9px;'
 			},bottom);
 
-			var graph = new gitgraph({user:this.user,repo:obj.name,domNode:bottom});
+			var graph = new Gitgraph({user:this.user,repo:obj.name,domNode:bottom});
 			dojo.style(graph,'marginLeft','auto');
 			dojo.style(graph,'marginRight','auto');	
 			dojo.style(graph,'marginTop','5px');
@@ -171,6 +171,6 @@ var Gitview = function(args){
 				this.createRepoEntry(this.repos[i]);
 		};
 		
-		this.loadScript('http://logicalcognition.com/Projects/gitgraph/gitgraph.js',bootstrap.bind(this));	
+		this.loadScript('http://logicalcognition.com/Projects/Gitgraph/Gitgraph.js',bootstrap.bind(this));	
 	}
 };

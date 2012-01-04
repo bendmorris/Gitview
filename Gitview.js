@@ -136,7 +136,7 @@ var Gitview = function(args){
 	this.kickStart = function(){
 		dojo.ready(this,function(){
 			dojo.xhrGet({
-				url: 'https://api.github.com/users/'+this.user+'/repos',
+				url: 'http://logicalcognition.com/files/gitview.php?user='+args.user,
 				handleAs: 'json',
 				sync:true,
 				preventCache: true,

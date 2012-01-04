@@ -58,7 +58,7 @@ var view = new Gitview({
 		var s = dojo.create('span',{style:'position:absolute;top:240px;left:475px'},'demoHolder','before');
 		var regular = crisp.create({innerHTML:'regular',fontSize:'12px'});
 		r.appendChild(regular);
-		var small = crisp.create({innerHTML:'small',fontSize:'12px'});
+		var small = crisp.create({innerHTML:'compact',fontSize:'12px'});
 		s.appendChild(small);
 		dojo.connect(regular,'onclick',function(){
 			dojo.style('demoHolder1','display','block');

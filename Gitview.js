@@ -154,7 +154,8 @@ var Gitview = function(args){
 		  Function.prototype.bind = this.bind;
 		
 		var bootstrap = function(){
-			this.loadScript('http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js',kickStart.bind(this));
+			if(!dojo)
+				this.loadScript('http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js',kickStart.bind(this));
 		};
 		
 		var kickStart = function(){

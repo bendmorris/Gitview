@@ -1,5 +1,4 @@
-var gitview = function(args){
-	
+var Gitview = function(args){
 	this.createRepoEntry = function(obj){
 		if(this.small){
 			var container = dojo.create('div',{
@@ -91,27 +90,87 @@ var gitview = function(args){
 		return date;
 	};
 	
+	this.loadScript = function(sScriptSrc,callbackfunction) {
+		//gets document head element
+		var oHead = document.getElementsByTagName('head')[0];
+		if(oHead){
+			//creates a new script tag		
+			var oScript = document.createElement('script');
+
+			//adds src and type attribute to script tag
+			oScript.setAttribute('src',sScriptSrc);
+			oScript.setAttribute('type','text/javascript');
+
+			//calling a function after the js is loaded (IE)
+			var loadFunction = function()
+				{
+					if (this.readyState == 'complete' || this.readyState == 'loaded')
+					{
+						callbackfunction(); 
+					}
+				};
+			oScript.onreadystatechange = loadFunction;
+
+			//calling a function after the js is loaded (Firefox)
+			oScript.onload = callbackfunction;
+
+			//append the script tag to document head element		
+			oHead.appendChild(oScript);
+		}
+	};
+	
+	this.bind = function (oThis) {
+		if (typeof this !== "function") {
+		  // closest thing possible to the ECMAScript 5 internal IsCallable function
+		  throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+		}
+
+		var aArgs = Array.prototype.slice.call(arguments, 1), 
+		    fToBind = this, 
+		    fNOP = function () {},
+		    fBound = function () {
+		      return fToBind.apply(this instanceof fNOP
+		                             ? this
+		                             : oThis || window,
+		                           aArgs.concat(Array.prototype.slice.call(arguments)));
+		    };
+
+		fNOP.prototype = this.prototype;
+		fBound.prototype = new fNOP();
+
+		return fBound;
+	};
+
 	//Initiatialization
 	if(!args || !args.user || !args.domNode){
-		throw new Error('gitview: missing user and/or domNode arg');
+		throw new Error('Gitview: missing user and/or domNode arg');
 	}else{
 		this.domNode = args.domNode;
 		this.user = args.user;
 		this.repos = [];
 		this.small = args.small==true ? true : false;
 		
-		//Get data
-		dojo.xhrGet({
-			url: 'https://api.github.com/users/'+this.user+'/repos',
-			handleAs: 'json',
-			sync:true,
-			preventCache: true,
-			load: dojo.hitch(this,function(data){
-				this.repos = data;
-			})
-		});
-
-		for(var i in this.repos)
-			this.createRepoEntry(this.repos[i]);
+		if (!Function.prototype.bind)
+		  Function.prototype.bind = this.bind;
+		
+		var bootstrap = function(){
+			this.loadScript('http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js',kickStart.bind(this));
+		};
+		
+		var kickStart = function(){
+			dojo.xhrGet({
+				url: 'https://api.github.com/users/'+this.user+'/repos',
+				handleAs: 'json',
+				sync:true,
+				preventCache: true,
+				load: dojo.hitch(this,function(data){
+					this.repos = data;
+				})
+			});
+			for(var i in this.repos)
+				this.createRepoEntry(this.repos[i]);
+		};
+		
+		this.loadScript('http://logicalcognition.com/Projects/gitgraph/gitgraph.js',bootstrap.bind(this));	
 	}
 };

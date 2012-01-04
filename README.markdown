@@ -21,7 +21,7 @@ JS widget to list github repositories. To see it in action, visit [gitview.logic
 	<script src="http://logicalcognition.com/Projects/gitview/gitview.js"></script>
 	```
 
-2. From within a <script> tag or a JS file
+2. From within a script tag or a JS file
 	
 	```console
 	var view = new gitview({ 

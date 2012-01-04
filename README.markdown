@@ -21,13 +21,13 @@ Small
 
 ##Usage
 
-1. Paste into your page's HEAD
+Paste into your page's HEAD
 
 	```console
 	<script src="http://logicalcognition.com/Projects/Gitview/Gitview.js"></script>
 	```
 
-2. From within a script tag or a JS file
+From within a script tag or a JS file
 	
 	```console
 	var view = new Gitview({ 
@@ -36,6 +36,13 @@ Small
 	  copmact : false           // if set to true, will display smaller version of widget (no participation graph)
 	});
 	```
+	
+Or use it as a jQuery plugin
+	
+	```console
+	$('#foo').gitview({user: 'bouchon'});
+	```
+	
 ##Issues & Features
 
 File under the Issues section and feel free to fork and pull-request

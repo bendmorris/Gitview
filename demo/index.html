@@ -26,6 +26,7 @@
 			<div id="featureHolder">
 				<ul>
 					<li>Async loading of all data</li>
+					<li>Can be used as jQuery plugin</li>
 					<li>All data 100% live</li>
 					<li>Participation graph is a canvas element</li>
 					<li>Can toggle regular or small version</li>
@@ -37,16 +38,19 @@
 		</div>
 		<div id="usage">
 			<span class="examples">Usage</span><br>
-			1. Paste into your page's HEAD
+			Paste into your page's HEAD
 			<pre class="prettyprint code">
 &lt;script src="http://logicalcognition.com/Projects/Gitview/Gitview.js"&gt;&lt;/script&gt;</pre>
-			2. From within a &lt;script&gt; tag or a JS file
+			From within a &lt;script&gt; tag or a JS file
 			<pre class="prettyprint code">
 var view = new Gitview({ 
   user    : 'bouchon',      // any github username
   domNode : document.body,  // domNode to attach to
   compact : false           // if set to true, will display smaller version of widget (no participation graph)
 });</pre>
+			Or use it as a jQuery plugin
+			<pre class="prettyprint code">
+$('#foo').gitview({user: 'bouchon'});</pre>
 			<span class="examples">Issues & Features</span><br>
 			Report any issues and features (I'm sure I missed a lot of stuff) on <a href="https://github.com/bouchon/Gitview" target="_blank">Github</a>.
 		</div>

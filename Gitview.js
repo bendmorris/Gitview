@@ -4,7 +4,7 @@ var Gitview = function(args){
 	this.createRepoEntry = function(obj,showAsCompact){
 		//1. repo container
 		var container = dojo.create('div',{
-			style:"border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white;padding-left:4px;padding-right:4px;"
+			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white;padding-left:4px;padding-right:4px;"
 		},this.domNode);
 		if(this.compact){
 			dojo.style(container,'marginBottom','5px');
@@ -260,7 +260,6 @@ var Gitview = function(args){
 		  Function.prototype.bind = this.bind;
 		
 		//If we need to build a frame, build it
-		dojo.style(this.domNode,'text-align','left');
 		if(this.frame){
 			var outer = dojo.create('div',{
 				style:'padding:5px;background:grey;border-radius:5px;width:'+this.w+';height:'+this.h+';'
@@ -269,6 +268,7 @@ var Gitview = function(args){
 				style:'height:100%;overflow-y:auto;width:'+this.w+';'
 			},outer);
 			this.domNode = inner;
+			dojo.style(this.domNode,'text-align','left');
 		}
 		
 		this.loadScript('http://logicalcognition.com/Projects/Gitgraph/Gitgraph.js',this.bootstrap.bind(this));	

@@ -64,7 +64,6 @@ body{
 	display:inline-block;
 	position:relative;
 	height:400px;
-	overflow-y:auto;
 }
 
 #featureHolder{

@@ -43,7 +43,13 @@ Small
 * Or use it as a jQuery plugin
 	
 	```console
-	$('#foo').gitview({user: 'bouchon'});
+	$('#foo').gitview({
+	  user: 'bouchon',      // any github username
+	  height  : '400px',    // (optional) height of widget
+	  width   : '450px',    // (optional) width of widget
+	  compact : false,      // (optional) compact mode or full mode?
+	  noFrame : false,      // (optional) no fancy widget frame, just repositories
+	});
 	```
 	
 FYI, the script uses a little Dojo, and will require it if its not already loaded. Nothing to worry about! Thanks @teddyzetterlund .

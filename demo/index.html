@@ -52,7 +52,13 @@ var view = new Gitview({
 });</pre>
 			Or use it as a jQuery plugin
 			<pre class="prettyprint code">
-$('#foo').gitview({user: 'bouchon'});</pre>
+$('#foo').gitview({
+  user: 'bouchon',      // any github username
+  height  : '400px',    // (optional) height of widget
+  width   : '450px',    // (optional) width of widget
+  compact : false,      // (optional) compact mode or full mode?
+  noFrame : false,      // (optional) no fancy widget frame, just repositories
+});</pre>
 			
 			FYI, the script uses a little Dojo, and will require it if its not already loaded. Nothing to worry about!<br><br>
 			<span class="examples">Issues & Features</span><br>

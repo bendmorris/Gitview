@@ -6,16 +6,10 @@ var Gitview = function(args){
 		var container = dojo.create('div',{
 			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white;"
 		},this.domNode);
-		if(this.compact){
-			dojo.style(container,'marginBottom','5px');
-			dojo.addClass(container,'c');
-			if(!showAsCompact)
-				dojo.style(container,'display','none');	
-		}else{
-			dojo.addClass(container,'f');
-			if(showAsCompact)
-				dojo.style(container,'display','none');	
-		}
+		if(!this.frame)
+			dojo.style(container,'width',this.w);
+		if(!this._check)
+			this._check = container;
 
 		//2. top (title, forks, watchers, etc.)
 		var top = dojo.create('div',{
@@ -77,20 +71,31 @@ var Gitview = function(args){
 			var d = obj.description;
 			if(d.length > 100)
 				d = d.slice(0,97)+'...';
-			var description = dojo.create('div',{innerHTML:d,style:'font:12px arial;margin-left:9px;height:30px'},bottom);
+			var description = dojo.create('div',{innerHTML:d,style:'font:12px arial;margin-left:10px;height:30px'},bottom);
 		
 			//11. Participation graph & last updated
 			var updated = dojo.create('div',{
 				innerHTML:'Last updated '+this.fixUpdateDate(obj.updated_at),
-				style:'font:11px arial;color:#888;margin-top:5px;margin-left:9px;'
+				style:'font:11px arial;color:#888;margin-top:5px;margin-left:10px;'
 			},bottom);
-
-			var tmpW = (dojo.query('.c')[0].offsetWidth-46)+'px';
-			var graph = new Gitgraph({user:this.user,repo:obj.name,domNode:bottom,width:tmpW});
+			
+			if(!this._tmpW)
+				this._tmpW = (container.offsetWidth-40)+'px';
+			var graph = new Gitgraph({user:this.user,repo:obj.name,domNode:bottom,width:this._tmpW});
 			dojo.style(graph,'marginLeft','auto');
 			dojo.style(graph,'marginRight','auto');	
 			dojo.style(graph,'marginTop','5px');
 		}	
+		if(this.compact){
+			dojo.style(container,'marginBottom','5px');
+			dojo.addClass(container,['c','check']);
+			if(!showAsCompact)
+				dojo.style(container,'display','none');	
+		}else{
+			dojo.addClass(container,['f','check']);
+			if(showAsCompact)
+				dojo.style(container,'display','none');	
+		}
 	};
 	
 	// Builds frame header (if frame arg is set to true)
@@ -256,7 +261,9 @@ var Gitview = function(args){
 		this.compact 	= args.compact==true ? true : false;
 		this.frame	 	= !(args.noFrame==true ? true : false);
 		this.h			= args.height ? args.height : 'auto';
-		this.w			= args.width ? args.width : 'auto';
+		this.w			= args.width ? args.width : '440px';
+		if(parseInt(this.w.substring(0,this.w.length-2)) < 300)
+			this.w = '350px';
 		
 		if (!Function.prototype.bind)
 		  Function.prototype.bind = this.bind;
@@ -264,7 +271,7 @@ var Gitview = function(args){
 		//If we need to build a frame, build it
 		if(this.frame){
 			var outer = dojo.create('div',{
-				style:'padding:5px;background:grey;border-radius:5px;width:'+this.w+';height:'+this.h+';'
+				style:'padding:5px 5px 0px 5px;background:grey;border-radius:5px;width:'+this.w+';height:'+this.h+';'
 			},this.domNode);
 			var inner = dojo.create('div',{
 				style:'height:100%;overflow-y:auto;width:'+this.w+';'

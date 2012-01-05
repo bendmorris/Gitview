@@ -268,7 +268,7 @@ var Gitview = function(args){
 				style:'height:100%;overflow-y:auto;width:'+this.w+';'
 			},outer);
 			this.domNode = inner;
-			dojo.style(this.domNode,'text-align','left');
+			dojo.style(this.domNode,'textAlign','left');
 		}
 		
 		this.loadScript('http://logicalcognition.com/Projects/Gitgraph/Gitgraph.js',this.bootstrap.bind(this));	

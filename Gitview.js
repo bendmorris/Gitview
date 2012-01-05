@@ -260,6 +260,7 @@ var Gitview = function(args){
 		  Function.prototype.bind = this.bind;
 		
 		//If we need to build a frame, build it
+		dojo.style(this.domNode,'text-align','left');
 		if(this.frame){
 			var outer = dojo.create('div',{
 				style:'padding:5px;background:grey;border-radius:5px;width:'+this.w+';height:'+this.h+';'

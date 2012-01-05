@@ -43,6 +43,8 @@ Small
 	$('#foo').gitview({user: 'bouchon'});
 	```
 	
+FYI, the script uses a little Dojo, and will require it if its not already loaded. Nothing to worry about! Thanks @teddyzetterlund .
+	
 ##Issues & Features
 
 File under the Issues section and feel free to fork and pull-request

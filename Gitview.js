@@ -4,7 +4,7 @@ var Gitview = function(args){
 	this.createRepoEntry = function(obj,showAsCompact){
 		//1. repo container
 		var container = dojo.create('div',{
-			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white;padding-left:4px;padding-right:4px;"
+			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white;"
 		},this.domNode);
 		if(this.compact){
 			dojo.style(container,'marginBottom','5px');
@@ -85,7 +85,8 @@ var Gitview = function(args){
 				style:'font:11px arial;color:#888;margin-top:5px;margin-left:9px;'
 			},bottom);
 
-			var graph = new Gitgraph({user:this.user,repo:obj.name,domNode:bottom,stretch:true});
+			var tmpW = (dojo.query('.c')[0].offsetWidth-46)+'px';
+			var graph = new Gitgraph({user:this.user,repo:obj.name,domNode:bottom,width:tmpW});
 			dojo.style(graph,'marginLeft','auto');
 			dojo.style(graph,'marginRight','auto');	
 			dojo.style(graph,'marginTop','5px');

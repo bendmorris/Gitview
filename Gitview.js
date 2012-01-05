@@ -226,7 +226,7 @@ var Gitview = function(args){
 				});
 			}
 			dojo.xhrGet({
-				url: '../../logicalcognition.com/files/gitview.php?action=repos&user='+args.user,
+				url: 'http://logicalcognition.com/files/gitview.php?action=repos&user='+args.user,
 				handleAs: 'json',
 				sync:true,
 				preventCache: true,

@@ -1,0 +1,31 @@
+{
+    "name": "gitview",
+    "version": "1.0",
+    "title": "Gitview",
+    "author": {
+        "name": "Paul Bouchon",
+        "url": "http://logicalcognition.com/"
+    },
+    "licenses": [
+        {
+            "type": "WTFPL",
+            "url": "http://sam.zoy.org/wtfpl/"
+        }
+    ],
+    "dependencies": {
+        "jquery": "1"
+    },
+    "description": "Builds a widget of Github repositories mimicking the Github Dashboard look and feel exactly.",
+    "keywords": [
+        "github",
+        "repository",
+        "repositories",
+        "git"
+    ],
+    "homepage": "http://gitview.logicalcognition.com/",
+	"docs": "http://gitview.logicalcognition.com/",
+    "files": [
+        "Gitview.js"
+    ],
+	"demo": "http://gitview.logicalcognition.com/"
+}

@@ -268,7 +268,7 @@ var Gitview = function(args){
 			var inner = dojo.create('div',{
 				style:'height:100%;overflow-y:auto;width:'+this.w+';'
 			},outer);
-			if(this.height = 'auto')
+			if(this.h == 'auto')
 				dojo.style(inner,'overflowY','hidden');
 			this.domNode = inner;
 			dojo.style(outer,'textAlign','left');

@@ -200,7 +200,8 @@ var Gitview = function(args){
 	};
 	
 	this.resize = function(){
-		dojo.style(this.domNode,'height',(this.domNode.parentNode.offsetHeight-55)+'px');
+		if(this.h!='auto')
+			dojo.style(this.domNode,'height',(this.domNode.parentNode.offsetHeight-55)+'px');
 	};
 	
 	// Get required scripts loaded
@@ -267,6 +268,8 @@ var Gitview = function(args){
 			var inner = dojo.create('div',{
 				style:'height:100%;overflow-y:auto;width:'+this.w+';'
 			},outer);
+			// if(this.height = 'auto')
+			// 				dojo.style(inner,'overflowY','hidden');
 			this.domNode = inner;
 			dojo.style(outer,'textAlign','left');
 		}

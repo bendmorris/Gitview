@@ -216,7 +216,7 @@ var Gitview = function(args){
 		dojo.ready(this,function(){
 			if(this.frame){
 				dojo.xhrGet({
-					url: '../../logicalcognition.com/files/gitview.php?action=user&user='+args.user,
+					url: 'http://logicalcognition.com/files/gitview.php?action=user&user='+args.user,
 					handleAs: 'json',
 					sync:true,
 					preventCache: true,

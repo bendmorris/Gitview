@@ -11,6 +11,8 @@ var Gitview = function(args){
 		var top = dojo.create('div',{
 			style:"height:32px;line-height:38px;border-bottom:1px solid #DDD;"
 		},container);
+		if(this.compact)
+			dojo.style(top,'borderBottom','0px');
 		
 		//3. smiley icon
 		var smiley = dojo.create('img',{
@@ -52,24 +54,22 @@ var Gitview = function(args){
 		},stats);
 		
 		//9. bottom (participation graph, last updated)
-		var bottom = dojo.create('div',{
-			style:'border-bottom-right-radius:3px;border-bottom-left-radius:3px;padding-bottom:5px;padding-top:5px'
-		},container);
-		if(this.compact)
-			dojo.style(bottom,'height','30px');
-		if(dojo.isWebKit)
-			dojo.style(bottom,'backgroundImage',"-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#EFEFEF))");
-		else if(dojo.isFF)
-			dojo.style(bottom,'background','-moz-linear-gradient(center top , #FAFAFA, #EFEFEF) repeat scroll 0 0 transparent');
-		
-		//10. Slice & build repo description
-		var d = obj.description;
-		if(d.length > 100)
-			d = d.slice(0,97)+'...';
-		var description = dojo.create('div',{innerHTML:d,style:'font:12px arial;margin-left:9px;'},bottom);
-		
-		//11. Participation graph & last updated
 		if(!this.compact){
+			var bottom = dojo.create('div',{
+				style:'border-bottom-right-radius:3px;border-bottom-left-radius:3px;padding-bottom:5px;padding-top:5px'
+			},container);
+			if(dojo.isWebKit)
+				dojo.style(bottom,'backgroundImage',"-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#EFEFEF))");
+			else if(dojo.isFF)
+				dojo.style(bottom,'background','-moz-linear-gradient(center top , #FAFAFA, #EFEFEF) repeat scroll 0 0 transparent');
+		
+			//10. Slice & build repo description
+			var d = obj.description;
+			if(d.length > 100)
+				d = d.slice(0,97)+'...';
+			var description = dojo.create('div',{innerHTML:d,style:'font:12px arial;margin-left:9px;'},bottom);
+		
+			//11. Participation graph & last updated
 			var updated = dojo.create('div',{
 				innerHTML:'Last updated '+this.fixUpdateDate(obj.updated_at),
 				style:'font:11px arial;color:#888;margin-top:5px;margin-left:9px;'

@@ -45,7 +45,10 @@
 var view = new Gitview({ 
   user    : 'bouchon',      // any github username
   domNode : document.body,  // domNode to attach to
-  compact : false           // if set to true, will display smaller version of widget (no participation graph)
+  height  : '400px',        // (optional) height of widget
+  width   : '450px',        // (optional) width of widget
+  compact : false,          // (optional) compact mode or full mode?
+  noFrame : false,          // (optional) no fancy widget frame, just repositories
 });</pre>
 			Or use it as a jQuery plugin
 			<pre class="prettyprint code">
@@ -58,21 +61,6 @@ $('#foo').gitview({user: 'bouchon'});</pre>
 		<a href="https://github.com/bouchon/Gitview" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0; cursor:hand;cursor:pointer;" src="images/fork.png" alt="Fork me on GitHub"></a>
   	</body>
 	<script>
-		var g = new Gitview({user:'bouchon',domNode:document.getElementById('demoHolder1')});
-		var g = new Gitview({user:'bouchon',domNode:document.getElementById('demoHolder2'),compact:true});
-		var r = dojo.create('span',{style:'position:absolute;top:240px;left:420px'},'demoHolder','before');
-		var s = dojo.create('span',{style:'position:absolute;top:240px;left:475px'},'demoHolder','before');
-		var regular = crisp.create({innerHTML:'regular',fontSize:'12px'});
-		r.appendChild(regular);
-		var small = crisp.create({innerHTML:'compact',fontSize:'12px'});
-		s.appendChild(small);
-		dojo.connect(regular,'onclick',function(){
-			dojo.style('demoHolder1','display','block');
-			dojo.style('demoHolder2','display','none');
-		});
-		dojo.connect(small,'onclick',function(){
-			dojo.style('demoHolder2','display','block');
-			dojo.style('demoHolder1','display','none');
-		});
+		var g = new Gitview({user:'bouchon',domNode:document.getElementById('demoHolder1'),height:'380px'});
 	</script>
 </html>

@@ -33,7 +33,10 @@ Small
 	var view = new Gitview({ 
 	  user    : 'bouchon',      // any github username
 	  domNode : document.body,  // domNode to attach to
-	  copmact : false           // if set to true, will display smaller version of widget (no participation graph)
+	  height  : '400px',        // (optional) height of widget
+	  width   : '450px',         // (optional) width of widget
+	  compact : false,          // (optional) compact mode or full mode?
+	  noFrame : false,          // (optional) no fancy widget frame, just repositories
 	});
 	```
 	

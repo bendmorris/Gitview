@@ -342,7 +342,7 @@ var Gitview = function(args){
 		this.count		= args.count ? args.count : 3;
 		this.w			= args.width ? args.width : '440px';
 		this.w			= this.w.substring(0,this.w.length-2)<300 ? '350px' : this.w;
-		this.frameColor	= args.frameColor ? args.frameColor : 'grey';
+		this.frameColor	= args.frameColor ? args.frameColor : '#444';
 		this.repos 		= [];
 		this.entries 	= [];
 		

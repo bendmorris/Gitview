@@ -4,7 +4,7 @@ var Gitview = function(args){
 		//outer
 		var outer = dojo.create('div',{
 			'class':'outer',
-			style:'position:relative;text-align:left;line-height:15px;padding:5px 5px 23px 5px;background:grey;border-radius:5px;width:'+this.w+';'
+			style:'max-width:600px;position:relative;text-align:left;line-height:15px;padding:5px 5px 23px 5px;background:grey;border-radius:5px;width:'+this.w+';'
 		},this.domNode);
 		//inner
 		var inner = dojo.create('div',{
@@ -77,10 +77,8 @@ var Gitview = function(args){
 		},this.domNode,'before');
 		
 		//8. connect things
-		dojo.connect(window,'resize',this,'resize');
 		dojo.connect(w,'onclick',this,'toggleFull');
 		dojo.connect(x,'onclick',this,'toggleCompact');
-		this.resize();
 	};
 	
 	// Builds each repo node
@@ -88,7 +86,7 @@ var Gitview = function(args){
 		//1. repo container
 		var container = dojo.create('div',{
 			'class':'entry',
-			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white;"
+			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white;max-width:600px;"
 		},this.domNode);
 		if(!this.frame) dojo.style(container,'width',this.w);
 		if(this.compact) dojo.style(container,'marginBottom','5px');
@@ -308,7 +306,11 @@ var Gitview = function(args){
 					handleAs: 'json',
 					sync:true,
 					preventCache: true,
-					load: dojo.hitch(this,'createFrameHeader')
+					load: dojo.hitch(this,function(data){
+						// Build frame if we need it
+						this.createFrame();
+						this.createFrameHeader(data);
+					})
 				});
 			}
 			// Get repo info
@@ -344,9 +346,6 @@ var Gitview = function(args){
 		
 		// Make sure bind( ) is a function
 		if (!Function.prototype.bind) Function.prototype.bind = this.bind;
-		
-		// Build frame if we need it
-		if(this.frame) this.createFrame();
 		
 		// Dynamically load scripts and continue building
 		this.loadScript('http://logicalcognition.com/Projects/Gitgraph/Gitgraph.js',this.bootstrap.bind(this));	

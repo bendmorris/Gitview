@@ -45,7 +45,7 @@
 var view = new Gitview({ 
   user    : 'bouchon',      // any github username
   domNode : document.body,  // domNode to attach to
-  height  : '400px',        // (optional) height of widget
+  count   : 2,              // (optional) number of repos per widget page
   width   : '450px',        // (optional) width of widget
   compact : false,          // (optional) compact mode or full mode?
   noFrame : false,          // (optional) no fancy widget frame, just repositories
@@ -54,7 +54,7 @@ var view = new Gitview({
 			<pre class="prettyprint code">
 $('#foo').gitview({
   user: 'bouchon',      // any github username
-  height  : '400px',    // (optional) height of widget
+  count   : 2,          // (optional) number of repos per widget page
   width   : '450px',    // (optional) width of widget
   compact : false,      // (optional) compact mode or full mode?
   noFrame : false,      // (optional) no fancy widget frame, just repositories
@@ -67,6 +67,6 @@ $('#foo').gitview({
 		<a href="https://github.com/bouchon/Gitview" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0; cursor:hand;cursor:pointer;" src="images/fork.png" alt="Fork me on GitHub"></a>
   	</body>
 	<script>
-		var g = new Gitview({user:'bouchon',domNode:document.getElementById('demoHolder1'),height:'380px'});
+		var g = new Gitview({user:'bouchon',domNode:document.getElementById('demoHolder1'),compact:false,count:2});
 	</script>
 </html>

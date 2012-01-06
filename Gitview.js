@@ -1,65 +1,82 @@
 var Gitview = function(args){
 	// Builds optional outer frame
 	this.createFrame = function(){
+		//outer
 		var outer = dojo.create('div',{
-			style:'line-height:15px;padding:5px 5px 0px 5px;background:grey;border-radius:5px;width:'+this.w+';height:'+this.h+';'
+			'class':'outer',
+			style:'position:relative;text-align:left;line-height:15px;padding:5px 5px 23px 5px;background:grey;border-radius:5px;width:'+this.w+';'
 		},this.domNode);
+		//inner
 		var inner = dojo.create('div',{
-			style:'height:100%;overflow-y:auto;width:'+this.w+';'
+			style:'height:100%;width:'+this.w+';'
 		},outer);
-		if(this.h == 'auto')
-			dojo.style(inner,'overflowY','hidden');
+		//create page buttons
+		var right = dojo.create('a',{
+			'class':'button icon arrowright',style:'float:right;margin-left:5px'
+		},outer,'last');
+		var left = dojo.create('a',{
+			'class':'button icon arrowleft',style:'float:right;'
+		},outer,'last');
+		//connect page buttons
+		dojo.connect(right,'onclick',this,'nextPage');
+		dojo.connect(left,'onclick',this,'prevPage');
 		this.domNode = inner;
-		dojo.style(outer,'textAlign','left');
 	};
 	
 	// Builds frame header (if frame arg is set to true)
 	this.createFrameHeader = function(data){
-		//1. avatar
-		dojo.create('img',{src:data.avatar_url,style:'width:40px;height:auto;border-radius:2px;'},this.domNode,'before');
+		//1. table
+		var table = dojo.create('table',{
+			innerHTML:'<tr></tr>'
+		},this.domNode,'before');
 		
-		//2. user name
+		//2. avater cell
+		var avatarCell = dojo.create('td',{},table.firstChild.firstChild);
+		var otherCell = dojo.create('td',{},table.firstChild.firstChild);
+		
+		//3. avatar
+		dojo.create('img',{
+			src:data.avatar_url,
+			style:'width:40px;height:auto;border-radius:2px;position:relative;'
+		},avatarCell);
+		
+		//4. user name
 		dojo.create('span',{
 			innerHTML:data.login+'<br>',
-			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:13px;color:white;font-weight:bold;'
-			+'position:relative;top:-25px;left:6px'
-		},this.domNode,'before');
+			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:13px;color:white;font-weight:bold;margin-left:6px'
+		},otherCell);
 		
-		//3. followers
+		//5. followers
 		var t = dojo.create('span',{
 			innerHTML:data.followers+' follower',
-			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;color:#AAA;'
-			+'position:relative;top:-26px;margin-left:45px'
-		},this.domNode,'before');
+			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;color:#AAA;margin-left:6px'
+		},otherCell);
 		if(data.followers > 1 || data.followers == 0)
 			t.innerHTML += 's';
 		
-		//4. repos
+		//6. repos
 		var v = dojo.create('span',{
 			innerHTML:' - '+data.public_repos+' repositor',
 			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;color:#AAA;'
-			+'position:relative;top:-26px;'
-		},this.domNode,'before');
+		},otherCell);
 		if(data.public_repos > 1 || data.public_repos == 0)
 			v.innerHTML += 'ies';
 		else
 			v.innerHTML += 'y'
 			
-		//5. toggle full / compact buttons
+		//7. toggle full / compact buttons
 		var x = dojo.create('span',{
 			innerHTML:'compact',
-			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;color:#AAA;'
-			+'position:relative;top:-12px;float:right;cursor:hand;cursor:pointer;margin-left:5px;'
+			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;color:#AAA;cursor:hand;cursor:pointer;margin-left:5px;'
+			+'position:absolute;top:40px;right:25px'
 		},this.domNode,'before');
 		var w = dojo.create('span',{
 			innerHTML:'full',
-			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;color:#AAA;'
-			+'position:relative;top:-12px;float:right;cursor:hand;cursor:pointer;'
+			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;color:#AAA;cursor:hand;cursor:pointer;'
+			+'position:absolute;top:40px;right:5px'
 		},this.domNode,'before');
 		
-		//6. connect things
-		dojo.style(this.domNode,'position','relative');
-		dojo.style(this.domNode,'top','-17px');
+		//8. connect things
 		dojo.connect(window,'resize',this,'resize');
 		dojo.connect(w,'onclick',this,'toggleFull');
 		dojo.connect(x,'onclick',this,'toggleCompact');
@@ -70,33 +87,29 @@ var Gitview = function(args){
 	this.createRepoEntry = function(obj,showAsCompact){
 		//1. repo container
 		var container = dojo.create('div',{
+			'class':'entry',
 			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white;"
 		},this.domNode);
 		if(!this.frame) dojo.style(container,'width',this.w);
+		if(this.compact) dojo.style(container,'marginBottom','5px');
+		if(this._index >= this.count)
+			dojo.style(container,'display','none');
 		
 		//2. build top section
 		var top = this.createTop(obj, container);
 		
-		//3. bottom (if we are not in compact mode participation graph, last updated)
-		if(!this.compact) var bottom = this.createBottom(obj, container);	
-		
-		//4. Add custom class depending on whether compact or not for future queries
-		if(this.compact){
-			dojo.style(container,'marginBottom','5px');
-			dojo.addClass(container,['c','check']);
-			if(!showAsCompact)
-				dojo.style(container,'display','none');	
-		}else{
-			dojo.addClass(container,['f','check']);
-			if(showAsCompact)
-				dojo.style(container,'display','none');	
-		}
+		//3. build bottom section
+		var bottom = this.createBottom(obj, container);	
+		this._index++;
 	};
 	
 	// Builds entry top (title, forks, watchers, etc.)
 	this.createTop = function(obj, container){
 		//1. top (title, forks, watchers, etc.)
-		var top = dojo.create('div',{ style:"height:32px;line-height:38px;border-bottom:1px solid #DDD;" },container);
+		var top = dojo.create('div',{ 
+			'class':'top',
+			style:"height:32px;line-height:38px;border-bottom:1px solid #DDD;" 
+		},container);
 		if(this.compact) dojo.style(top,'borderBottom','0px');
 		
 		//2. smiley icon
@@ -142,6 +155,7 @@ var Gitview = function(args){
 	this.createBottom = function(obj, container){
 		//1. Bottom (graph, last updated, etc.)
 		var bottom = dojo.create('div',{
+			'class':'bottom',
 			style:'border-bottom-right-radius:3px;border-bottom-left-radius:3px;padding-bottom:5px;padding-top:5px'
 		},container);
 		if(dojo.isWebKit)
@@ -161,25 +175,67 @@ var Gitview = function(args){
 		},bottom);
 		
 		//4. Graph
-		if(!this._tmpW) this._tmpW = (container.offsetWidth-40)+'px';
+		if(!this._tmpW) this._tmpW = (container.offsetWidth-35)+'px';
 		var graph = new Gitgraph({user:this.user,repo:obj.name,domNode:bottom,width:this._tmpW});
 		dojo.style(graph,'marginLeft','auto');
 		dojo.style(graph,'marginRight','auto');	
 		dojo.style(graph,'marginTop','5px');
+		dojo.style(graph,'marginBottom','5px');
+		
+		if(this.compact)
+			dojo.style(bottom, 'display', 'none');
 		
 		return bottom;
 	};
 	
 	// Toggles full mode
 	this.toggleFull = function(){
-		dojo.query('.c').forEach(function(node){ dojo.style(node,'display','none'); });
-		dojo.query('.f').forEach(function(node){ dojo.style(node,'display','block'); });
+		dojo.query('.bottom').forEach(function(node){ dojo.style(node,'display','block'); });
+		dojo.query('.top').forEach(function(node){ dojo.style(node,'borderBottom','1px solid #DDD1px solid #DDD'); });
+		dojo.query('.entry').forEach(function(node){ dojo.style(node,'marginBottom','10px'); });
+	};
+	
+	// Go to next page of repos
+	this.nextPage = function(){
+		var lower = this._pageMax;
+		this._pageMax = ((this._pageMax+this.count)<=this.repos.length) ? (this._pageMax+this.count) : this.repos.length;
+		var upper = this._pageMax;
+		if(lower != upper){
+			var entries = dojo.query('.entry');
+			for(var i=0; i<entries.length; i++){
+				if(i<lower)
+					dojo.style(entries[i],'display','none');
+				else if(i<upper)
+					dojo.style(entries[i],'display','block');
+			}
+		}
+	};
+	
+	// Go to prev page of repos
+	this.prevPage = function(){
+		var diff = 0;
+		var entries = dojo.query('.entry').forEach(function(node){
+			if(dojo.style(node,'display')!='none')
+				diff++
+		});
+		this._pageMax = ((this._pageMax-diff)>=this.count) ? (this._pageMax-diff) : this.count;
+		var upper = this._pageMax;
+		var lower = ((this._pageMax-this.count)>=0) ? (this._pageMax-this.count) : 0;
+		if(!((upper==lower)&&(upper==0))){
+			for(var i=0; i<entries.length; i++){
+				if(i>=upper)
+					dojo.style(entries[i],'display','none');
+				else if(i>=lower)
+					dojo.style(entries[i],'display','block');
+			}
+		}
 	};
 	
 	// Toggles compact mode
 	this.toggleCompact = function(){
-		dojo.query('.f').forEach(function(node){ dojo.style(node,'display','none'); });
-		dojo.query('.c').forEach(function(node){ dojo.style(node,'display','block'); });
+		dojo.query('.bottom').forEach(function(node){ dojo.style(node,'display','none'); });
+		dojo.query('.top').forEach(function(node){ dojo.style(node,'borderBottom','0px'); });
+		dojo.query('.entry').forEach(function(node){ dojo.style(node,'marginBottom','5px'); });
 	};
 	
 	// Changes regular formatted date into '1 day ago', '9 hours ago', etc.
@@ -205,6 +261,16 @@ var Gitview = function(args){
 		}
 	};
 	
+	// Dynamically load CSS
+	this.loadTemplate = function(url) {
+        var e = document.createElement("link");
+        e.href = url;
+        e.type = "text/css";
+        e.rel = "stylesheet";
+        e.media = "screen";
+        document.getElementsByTagName("head")[0].appendChild(e);
+    };
+	
 	// Bind, for browsers not supporting it by default
 	this.bind = function (oThis) {
 		if (typeof this !== "function")
@@ -224,9 +290,9 @@ var Gitview = function(args){
 	
 	// Hook for dynamic resizing
 	this.resize = function(){
-		var t = parseInt(this.domNode.parentNode.style.height.substring(0,this.domNode.parentNode.style.height.length-2));
-		if((this.h!='auto') && (this.h!='100%') && (this.frame))
-			dojo.style(this.domNode,'height',(t-55)+'px');
+		// var t = parseInt(this.domNode.parentNode.style.height.substring(0,this.domNode.parentNode.style.height.length-2));
+		// if((this.h!='auto') && (this.h!='100%') && (this.frame))
+		// 	dojo.style(this.domNode,'height',(t-55)+'px');
 	};
 	
 	// Get required scripts loaded
@@ -240,10 +306,12 @@ var Gitview = function(args){
 	// Kick things off once Gitgraph is loaded
 	this.kickStart = function(){
 		dojo.ready(this,function(){
+			// load helper css
+			this.loadTemplate('http://logicalcognition.com/files/gitviewFiles/gh-buttons.css');
 			// Get user info if we built a frame (avatar, etc.)
 			if(this.frame){
 				dojo.xhrGet({
-					url: 'http://logicalcognition.com/files/gitview.php?action=user&user='+args.user,
+					url: 'http://logicalcognition.com/files/gitviewFiles/gitview.php?action=user&user='+args.user,
 					handleAs: 'json',
 					sync:true,
 					preventCache: true,
@@ -252,20 +320,18 @@ var Gitview = function(args){
 			}
 			// Get repo info
 			dojo.xhrGet({
-				url: 'http://logicalcognition.com/files/gitview.php?action=repos&user='+args.user,
+				url: 'http://logicalcognition.com/files/gitviewFiles/gitview.php?action=repos&user='+args.user,
 				handleAs: 'json',
 				sync:true,
 				preventCache: true,
 				load: dojo.hitch(this,function(data){ this.repos = data; })
 			});
+
 			// For each repo, built an entry
-			for(var i in this.repos){
-				var showAsCompact = this.compact;
-				this.createRepoEntry(this.repos[i],showAsCompact);
-				this.compact = !this.compact;
-				this.createRepoEntry(this.repos[i],showAsCompact);
-				this.compact = !this.compact;
-			}
+			this._index = 0;
+			this._pageMax = this.count;
+			for(var i=0; i<this.repos.length; i++)
+				this.createRepoEntry(this.repos[i]);
 		});
 	};
 	
@@ -278,7 +344,7 @@ var Gitview = function(args){
 		this.domNode 	= args.domNode ? args.domNode : document.body;
 		this.compact 	= args.compact==true ? true : false;
 		this.frame	 	= args.noFrame!=true ? true : false;
-		this.h			= args.height ? args.height : 'auto';
+		this.count		= args.count ? args.count : 3;
 		this.w			= args.width ? args.width : '440px';
 		this.w			= this.w.substring(0,this.w.length-2)<300 ? '350px' : this.w;
 		this.repos 		= [];
@@ -306,7 +372,7 @@ if (window.jQuery) {
 	                domNode : $(this)[0], 
 	                compact : args.compact || false,
 					noFrame : args.noFrame || false,
-					height  : args.height || 'auto',
+					count  	: args.count || 3,
 					width   : args.width || 'auto'
 	            });
 	        });

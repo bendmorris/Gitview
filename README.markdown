@@ -33,7 +33,7 @@ Small
 	var view = new Gitview({ 
 	  user    : 'bouchon',      // any github username
 	  domNode : document.body,  // (optional) domNode to attach to
-	  height  : '400px',        // (optional) height of widget frame
+	  count   : 2,              // (optional) number of repos per widget page
 	  width   : '450px',        // (optional) width of widget / repos
 	  compact : false,          // (optional) compact mode or full mode?
 	  noFrame : false,          // (optional) no fancy widget frame, just repositories
@@ -45,7 +45,7 @@ Small
 	```console
 	$('#foo').gitview({
 	  user    : 'bouchon',      // any github username
-	  height  : '400px',        // (optional) height of widget frame
+	  count   : 2,              // (optional) number of repos per widget page
 	  width   : '450px',        // (optional) width of widget / repos
 	  compact : false,          // (optional) compact mode or full mode?
 	  noFrame : false,          // (optional) no fancy widget frame, just repositories

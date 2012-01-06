@@ -4,7 +4,7 @@ var Gitview = function(args){
 		//outer
 		var outer = dojo.create('div',{
 			'class':'outer',
-			style:'max-width:600px;position:relative;text-align:left;line-height:15px;padding:5px 5px 23px 5px;background:grey;border-radius:5px;width:'+this.w+';'
+			style:'position:relative;text-align:left;line-height:15px;padding:5px 5px 23px 5px;background:grey;border-radius:5px;width:'+this.w+';'
 		},this.domNode);
 		//inner
 		var inner = dojo.create('div',{
@@ -86,7 +86,7 @@ var Gitview = function(args){
 		//1. repo container
 		var container = dojo.create('div',{
 			'class':'entry',
-			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white;max-width:600px;"
+			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white;"
 		},this.domNode);
 		if(!this.frame) dojo.style(container,'width',this.w);
 		if(this.compact) dojo.style(container,'marginBottom','5px');

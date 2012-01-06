@@ -5,12 +5,12 @@ JS widget to list github repositories. Mimics dashboard style. To see it in acti
 Regular
 
 
-![Alt text](http://logicalcognition.com/Projects/Gitview/demo/images/screenshot-copy.png)
+![Alt text](http://logicalcognition.com/Projects/Gitview/demo/images/screenshot-current.png)
 
 Small
 
 
-![Alt text](http://logicalcognition.com/Projects/Gitview/demo/images/screenshotSmall-copy.png)
+![Alt text](http://logicalcognition.com/Projects/Gitview/demo/images/screenshot-current-small.png)
 
 ##Supported Browsers
 

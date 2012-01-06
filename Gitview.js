@@ -2,7 +2,7 @@ var Gitview = function(args){
 	// Builds optional outer frame
 	this.createFrame = function(){
 		var outer = dojo.create('div',{
-			style:'padding:5px 5px 0px 5px;background:grey;border-radius:5px;width:'+this.w+';height:'+this.h+';'
+			style:'line-height:15px;padding:5px 5px 0px 5px;background:grey;border-radius:5px;width:'+this.w+';height:'+this.h+';'
 		},this.domNode);
 		var inner = dojo.create('div',{
 			style:'height:100%;overflow-y:auto;width:'+this.w+';'
@@ -224,8 +224,9 @@ var Gitview = function(args){
 	
 	// Hook for dynamic resizing
 	this.resize = function(){
-		if(this.h!=('auto'&&'100%'))
-			dojo.style(this.domNode,'height',(this.domNode.parentNode.offsetHeight-55)+'px');
+		var t = parseInt(this.domNode.parentNode.style.height.substring(0,this.domNode.parentNode.style.height.length-2));
+		if((this.h!='auto') && (this.h!='100%') && (this.frame))
+			dojo.style(this.domNode,'height',(t-55)+'px');
 	};
 	
 	// Get required scripts loaded

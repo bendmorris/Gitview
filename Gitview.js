@@ -26,12 +26,13 @@ var Gitview = function(args){
 	// Builds frame header (if frame arg is set to true)
 	this.createFrameHeader = function(data){
 		//1. table
-		var table = dojo.create('table',{'style':'height:47px;width:100%;border-spacing:0;border-collapse:collapse;margin:0px;'},this.domNode,'before');
+		var table = dojo.create('table',{'style':'height:47px;width:100%;border-spacing:0;'
+		+'border-collapse:collapse;margin:0px;padding:0px;'},this.domNode,'before');
 		var row = dojo.create('tr',{},table);
 		
 		//2. avater cell
-		var avatarCell = dojo.create('td',{style:'width:41px;vertical-align:top;'},row);
-		var otherCell = dojo.create('td',{},row);
+		var avatarCell = dojo.create('td',{style:'width:41px;vertical-align:top;padding:0px;'},row);
+		var otherCell = dojo.create('td',{style:'padding:0px;'},row);
 		
 		//3. avatar
 		dojo.create('img',{
@@ -42,7 +43,8 @@ var Gitview = function(args){
 		//4. user name
 		dojo.create('span',{
 			innerHTML:data.login+'<br>',
-			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:13px;color:white;font-weight:bold;margin-left:6px'
+			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:13px;'
+			+'color:white;font-weight:bold;margin-left:6px'
 		},otherCell);
 		
 		//5. followers
@@ -66,8 +68,8 @@ var Gitview = function(args){
 		//7. toggle full / compact buttons
 		var x = dojo.create('span',{
 			innerHTML:'compact',
-			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;color:#AAA;cursor:hand;cursor:pointer;margin-left:5px;'
-			+'position:absolute;top:38px;right:25px'
+			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;color:#AAA;'
+			+'cursor:hand;cursor:pointer;margin-left:5px;position:absolute;top:38px;right:25px'
 		},this.domNode,'before');
 		var w = dojo.create('span',{
 			innerHTML:'full',

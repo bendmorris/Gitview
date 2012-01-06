@@ -26,7 +26,7 @@ var Gitview = function(args){
 	// Builds frame header (if frame arg is set to true)
 	this.createFrameHeader = function(data){
 		//1. table
-		var table = dojo.create('table',{'style':'height:47px;width:100%;border-spacing:0;border-collapse:collapse;'},this.domNode,'before');
+		var table = dojo.create('table',{'style':'height:47px;width:100%;border-spacing:0;border-collapse:collapse;margin:0px;'},this.domNode,'before');
 		var row = dojo.create('tr',{},table);
 		
 		//2. avater cell

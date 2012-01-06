@@ -272,7 +272,7 @@ var Gitview = function(args){
     };
 	
 	// Bind, for browsers not supporting it by default
-	this.bind = function (oThis) {
+	this.bind = function (oThis){
 		if (typeof this !== "function")
 		  throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
 		var aArgs = Array.prototype.slice.call(arguments, 1), 
@@ -286,13 +286,6 @@ var Gitview = function(args){
 		fNOP.prototype = this.prototype;
 		fBound.prototype = new fNOP();
 		return fBound;
-	};
-	
-	// Hook for dynamic resizing
-	this.resize = function(){
-		// var t = parseInt(this.domNode.parentNode.style.height.substring(0,this.domNode.parentNode.style.height.length-2));
-		// if((this.h!='auto') && (this.h!='100%') && (this.frame))
-		// 	dojo.style(this.domNode,'height',(t-55)+'px');
 	};
 	
 	// Get required scripts loaded

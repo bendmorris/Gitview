@@ -88,6 +88,7 @@ var Gitview = function(args){
 			'class':'entry',
 			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white;"
 		},this.domNode);
+		this.entries.push(container);
 		if(!this.frame) dojo.style(container,'width',this.w);
 		if(this.compact) dojo.style(container,'marginBottom','5px');
 		if(this._index >= this.count)
@@ -199,12 +200,11 @@ var Gitview = function(args){
 		this._pageMax = ((this._pageMax+this.count)<=this.repos.length) ? (this._pageMax+this.count) : this.repos.length;
 		var upper = this._pageMax;
 		if(lower != upper){
-			var entries = dojo.query('.entry');
-			for(var i=0; i<entries.length; i++){
+			for(var i=0; i<this.entries.length; i++){
 				if(i<lower)
-					dojo.style(entries[i],'display','none');
+					dojo.style(this.entries[i],'display','none');
 				else if(i<upper)
-					dojo.style(entries[i],'display','block');
+					dojo.style(this.entries[i],'display','block');
 			}
 		}
 	};
@@ -212,7 +212,7 @@ var Gitview = function(args){
 	// Go to prev page of repos
 	this.prevPage = function(){
 		var diff = 0;
-		var entries = dojo.query('.entry').forEach(function(node){
+		dojo.forEach(this.entries,function(node){
 			if(dojo.style(node,'display')!='none')
 				diff++
 		});
@@ -220,11 +220,11 @@ var Gitview = function(args){
 		var upper = this._pageMax;
 		var lower = ((this._pageMax-this.count)>=0) ? (this._pageMax-this.count) : 0;
 		if(!((upper==lower)&&(upper==0))){
-			for(var i=0; i<entries.length; i++){
+			for(var i=0; i<this.entries.length; i++){
 				if(i>=upper)
-					dojo.style(entries[i],'display','none');
+					dojo.style(this.entries[i],'display','none');
 				else if(i>=lower)
-					dojo.style(entries[i],'display','block');
+					dojo.style(this.entries[i],'display','block');
 			}
 		}
 	};
@@ -343,6 +343,7 @@ var Gitview = function(args){
 		this.w			= args.width ? args.width : '440px';
 		this.w			= this.w.substring(0,this.w.length-2)<300 ? '350px' : this.w;
 		this.repos 		= [];
+		this.entries 	= [];
 		
 		// Make sure bind( ) is a function
 		if (!Function.prototype.bind) Function.prototype.bind = this.bind;

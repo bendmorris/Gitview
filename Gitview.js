@@ -26,13 +26,12 @@ var Gitview = function(args){
 	// Builds frame header (if frame arg is set to true)
 	this.createFrameHeader = function(data){
 		//1. table
-		var table = dojo.create('table',{
-			innerHTML:'<tr></tr>'
-		},this.domNode,'before');
+		var table = dojo.create('table',{'style':'height:47px;width:100%;border-spacing:0;border-collapse:collapse;'},this.domNode,'before');
+		var row = dojo.create('tr',{},table);
 		
 		//2. avater cell
-		var avatarCell = dojo.create('td',{},table.firstChild.firstChild);
-		var otherCell = dojo.create('td',{},table.firstChild.firstChild);
+		var avatarCell = dojo.create('td',{style:'width:41px;vertical-align:top;'},row);
+		var otherCell = dojo.create('td',{},row);
 		
 		//3. avatar
 		dojo.create('img',{
@@ -68,12 +67,12 @@ var Gitview = function(args){
 		var x = dojo.create('span',{
 			innerHTML:'compact',
 			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;color:#AAA;cursor:hand;cursor:pointer;margin-left:5px;'
-			+'position:absolute;top:40px;right:25px'
+			+'position:absolute;top:38px;right:25px'
 		},this.domNode,'before');
 		var w = dojo.create('span',{
 			innerHTML:'full',
 			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;color:#AAA;cursor:hand;cursor:pointer;'
-			+'position:absolute;top:40px;right:5px'
+			+'position:absolute;top:38px;right:5px'
 		},this.domNode,'before');
 		
 		//8. connect things

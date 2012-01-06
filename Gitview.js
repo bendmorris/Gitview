@@ -224,7 +224,7 @@ var Gitview = function(args){
 	
 	// Hook for dynamic resizing
 	this.resize = function(){
-		if(this.h!='auto')
+		if(this.h!=('auto'&&'100%'))
 			dojo.style(this.domNode,'height',(this.domNode.parentNode.offsetHeight-55)+'px');
 	};
 	

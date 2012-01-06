@@ -43,21 +43,23 @@
 			From within a &lt;script&gt; tag or a JS file
 			<pre class="prettyprint code">
 var view = new Gitview({ 
-  user    : 'bouchon',      // any github username
-  domNode : document.body,  // domNode to attach to
-  count   : 2,              // (optional) number of repos per widget page
-  width   : '450px',        // (optional) width of widget
-  compact : false,          // (optional) compact mode or full mode?
-  noFrame : false,          // (optional) no fancy widget frame, just repositories
+  user       : 'bouchon',      // any github username
+  domNode    : document.body,  // domNode to attach to
+  count      : 2,              // (optional) number of repos per widget page
+  width      : '450px',        // (optional) width of widget
+  frameColor : 'grey'          // (optional) frame background color
+  compact    : false,          // (optional) compact mode or full mode?
+  noFrame    : false,          // (optional) no fancy widget frame, just repositories
 });</pre>
 			Or use it as a jQuery plugin
 			<pre class="prettyprint code">
 $('#foo').gitview({
-  user: 'bouchon',      // any github username
-  count   : 2,          // (optional) number of repos per widget page
-  width   : '450px',    // (optional) width of widget
-  compact : false,      // (optional) compact mode or full mode?
-  noFrame : false,      // (optional) no fancy widget frame, just repositories
+  user: 'bouchon',         // any github username
+  count      : 2,          // (optional) number of repos per widget page
+  width      : '450px',    // (optional) width of widget
+  frameColor : 'grey'      // (optional) frame background color
+  compact    : false,      // (optional) compact mode or full mode?
+  noFrame    : false,      // (optional) no fancy widget frame, just repositories
 });</pre>
 			
 			FYI, the script uses a little Dojo, and will require it if its not already loaded. Nothing to worry about!<br><br>
@@ -67,6 +69,6 @@ $('#foo').gitview({
 		<a href="https://github.com/bouchon/Gitview" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0; cursor:hand;cursor:pointer;" src="images/fork.png" alt="Fork me on GitHub"></a>
   	</body>
 	<script>
-		var g = new Gitview({user:'bouchon',domNode:document.getElementById('demoHolder1'),compact:false,count:2});
+		var g = new Gitview({user:'bouchon',domNode:document.getElementById('demoHolder1'),count:2,});
 	</script>
 </html>

@@ -87,7 +87,7 @@ var Gitview = function(args){
 		//1. repo container
 		var container = dojo.create('div',{
 			'class':'entry',
-			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:10px;background:white;"
+			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:5px;background:white;"
 		},this.domNode);
 		this.entries.push(container);
 		if(!this.frame) dojo.style(container,'width',this.w);
@@ -97,9 +97,12 @@ var Gitview = function(args){
 		
 		//2. build top section
 		var top = this.createTop(obj, container);
+		this.tops.push(top);
 		
 		//3. build bottom section
 		var bottom = this.createBottom(obj, container);	
+		this.bottoms.push(bottom);
+		
 		this._index++;
 	};
 	
@@ -190,9 +193,14 @@ var Gitview = function(args){
 	
 	// Toggles full mode
 	this.toggleFull = function(){
-		dojo.query('.bottom').forEach(function(node){ dojo.style(node,'display','block'); });
-		dojo.query('.top').forEach(function(node){ dojo.style(node,'borderBottom','1px solid #DDD1px solid #DDD'); });
-		dojo.query('.entry').forEach(function(node){ dojo.style(node,'marginBottom','10px'); });
+		this.bottoms.forEach(function(node){ dojo.style(node,'display','block'); });
+		this.tops.forEach(function(node){ dojo.style(node,'borderBottom','1px solid #DDD1px solid #DDD'); });
+	};
+	
+	// Toggles compact mode
+	this.toggleCompact = function(){
+		this.bottoms.forEach(function(node){ dojo.style(node,'display','none'); });
+		this.tops.forEach(function(node){ dojo.style(node,'borderBottom','0px'); });
 	};
 	
 	// Go to next page of repos
@@ -228,13 +236,6 @@ var Gitview = function(args){
 					dojo.style(this.entries[i],'display','block');
 			}
 		}
-	};
-	
-	// Toggles compact mode
-	this.toggleCompact = function(){
-		dojo.query('.bottom').forEach(function(node){ dojo.style(node,'display','none'); });
-		dojo.query('.top').forEach(function(node){ dojo.style(node,'borderBottom','0px'); });
-		dojo.query('.entry').forEach(function(node){ dojo.style(node,'marginBottom','5px'); });
 	};
 	
 	// Changes regular formatted date into '1 day ago', '9 hours ago', etc.
@@ -346,6 +347,8 @@ var Gitview = function(args){
 		this.frameColor	= args.frameColor ? args.frameColor : '#444';
 		this.repos 		= [];
 		this.entries 	= [];
+		this.bottoms 	= [];
+		this.tops 		= [];
 		
 		// Make sure bind( ) is a function
 		if (!Function.prototype.bind) Function.prototype.bind = this.bind;

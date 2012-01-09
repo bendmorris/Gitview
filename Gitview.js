@@ -245,7 +245,7 @@ var Gitview = function(args){
 	};
 	
 	this.loadRepos = function(){
-		var repos = JSON.parse(this.store.get('repo_data'));
+		var repos = JSON.parse(this.store.get('repo_data_'+this.user));
 		if(repos && this.cache){
 			this.repos = repos;
 			this._index = 0;
@@ -261,7 +261,7 @@ var Gitview = function(args){
 		      	load: dojo.hitch(this,function(obj){ 
 					this.repos = obj.data;
 					var jsonText = JSON.stringify(obj.data);
-					this.store.set('repo_data_'+this.id, jsonText);
+					this.store.set('repo_data_'+this.user, jsonText);
 					this._index = 0;
 					this._pageMax = this.count;
 					// For each repo, built an entry
@@ -274,9 +274,8 @@ var Gitview = function(args){
 	};
 	
 	this.loadUser = function(){
-		var user = JSON.parse(this.store.get('user_data'));
+		var user = JSON.parse(this.store.get('user_data_'+this.user));
 		if(user && this.cache){
-			console.log('using cache');
 			this.createFrame();
 			this.createFrameHeader(user);
 			this.loadRepos();
@@ -287,7 +286,7 @@ var Gitview = function(args){
 		      	load: dojo.hitch(this,function(obj){ 
 					this.createFrame();
 					var jsonText = JSON.stringify(obj.data);
-					this.store.set('user_data_'+this.id, jsonText);
+					this.store.set('user_data_'+this.user, jsonText);
 					this.createFrameHeader(obj.data);
 					this.loadRepos();
 				}),

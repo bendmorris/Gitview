@@ -298,6 +298,7 @@ var Gitview = function(args){
 	
 	// Kick things off once Gitgraph is loaded
 	this.kickStart = function(){
+		dojo.require('dojo.io.script');
 		dojo.ready(this,function(){
 			// load helper css
 			this.loadTemplate('http://logicalcognition.com/files/gitviewFiles/gh-buttons.css');
@@ -315,20 +316,23 @@ var Gitview = function(args){
 					})
 				});
 			}
+			
+						
+			
 			// Get repo info
-			dojo.xhrGet({
-				url: 'http://logicalcognition.com/files/gitviewFiles/gitview.php?action=repos&user='+args.user,
-				handleAs: 'json',
-				sync:true,
-				preventCache: true,
-				load: dojo.hitch(this,function(data){ this.repos = data; })
+			dojo.io.script.get({
+				url: 'https://api.github.com/users/'+args.user+'/repos',
+		      	callbackParamName: "callback",
+		      	load: dojo.hitch(this,function(obj){ 
+					this.repos = obj.data;
+					this._index = 0;
+					this._pageMax = this.count;
+					// For each repo, built an entry
+					for(var i=0; i<this.repos.length; i++)
+						this.createRepoEntry(this.repos[i]);
+				}),
+		      	error: function(error){ console.error(error); }
 			});
-
-			// For each repo, built an entry
-			this._index = 0;
-			this._pageMax = this.count;
-			for(var i=0; i<this.repos.length; i++)
-				this.createRepoEntry(this.repos[i]);
 		});
 	};
 	

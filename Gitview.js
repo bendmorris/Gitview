@@ -302,37 +302,49 @@ var Gitview = function(args){
 		dojo.ready(this,function(){
 			// load helper css
 			this.loadTemplate('http://logicalcognition.com/files/gitviewFiles/gh-buttons.css');
+			
+			// ASYNC UGLINESS
 			// Get user info if we built a frame (avatar, etc.)
 			if(this.frame){
-				dojo.xhrGet({
-					url: 'http://logicalcognition.com/files/gitviewFiles/gitview.php?action=user&user='+args.user,
-					handleAs: 'json',
-					sync:true,
-					preventCache: true,
-					load: dojo.hitch(this,function(data){
-						// Build frame if we need it
+				dojo.io.script.get({
+					url: 'https://api.github.com/users/'+args.user,
+			      	callbackParamName: "callback",
+			      	load: dojo.hitch(this,function(obj){ 
 						this.createFrame();
-						this.createFrameHeader(data);
-					})
+						this.createFrameHeader(obj.data);
+						// Get repo info
+						dojo.io.script.get({
+							url: 'https://api.github.com/users/'+args.user+'/repos',
+					      	callbackParamName: "callback",
+					      	load: dojo.hitch(this,function(obj){ 
+								this.repos = obj.data;
+								this._index = 0;
+								this._pageMax = this.count;
+								// For each repo, built an entry
+								for(var i=0; i<this.repos.length; i++)
+									this.createRepoEntry(this.repos[i]);
+							}),
+					      	error: function(error){ console.error(error); }
+						});
+					}),
+			      	error: function(error){ console.error(error); }
+				});
+			}else{
+				// Get repo info
+				dojo.io.script.get({
+					url: 'https://api.github.com/users/'+args.user+'/repos',
+			      	callbackParamName: "callback",
+			      	load: dojo.hitch(this,function(obj){ 
+						this.repos = obj.data;
+						this._index = 0;
+						this._pageMax = this.count;
+						// For each repo, built an entry
+						for(var i=0; i<this.repos.length; i++)
+							this.createRepoEntry(this.repos[i]);
+					}),
+			      	error: function(error){ console.error(error); }
 				});
 			}
-			
-						
-			
-			// Get repo info
-			dojo.io.script.get({
-				url: 'https://api.github.com/users/'+args.user+'/repos',
-		      	callbackParamName: "callback",
-		      	load: dojo.hitch(this,function(obj){ 
-					this.repos = obj.data;
-					this._index = 0;
-					this._pageMax = this.count;
-					// For each repo, built an entry
-					for(var i=0; i<this.repos.length; i++)
-						this.createRepoEntry(this.repos[i]);
-				}),
-		      	error: function(error){ console.error(error); }
-			});
 		});
 	};
 	

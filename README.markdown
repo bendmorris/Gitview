@@ -38,7 +38,7 @@ Small
 	  frameColor : 'grey'          // (optional) frame background color
 	  compact    : false,          // (optional) compact mode or full mode?
 	  noFrame    : false,          // (optional) no fancy widget frame, just repositories
-	  cache		 : true            // (optional) turn local caching on or off
+	  cache		 : true            // (optional) turn local caching on or off, on by default
 	});
 	```
 	
@@ -52,7 +52,7 @@ Small
 	  frameColor : 'grey'          // (optional) frame background color
 	  compact    : false,          // (optional) compact mode or full mode?
 	  noFrame    : false,          // (optional) no fancy widget frame, just repositories
-	  cache		 : true            // (optional) turn local caching on or off
+	  cache		 : true            // (optional) turn local caching on or off, on by default
 	});
 	```
 	

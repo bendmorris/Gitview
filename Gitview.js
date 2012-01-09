@@ -244,6 +244,58 @@ var Gitview = function(args){
 		return date;
 	};
 	
+	this.loadRepos = function(){
+		var repos = JSON.parse(this.store.get('repo_data'));
+		if(repos && this.cache){
+			this.repos = repos;
+			this._index = 0;
+			this._pageMax = this.count;
+			// For each repo, built an entry
+			for(var i=0; i<this.repos.length; i++)
+				this.createRepoEntry(this.repos[i]);
+		}else{
+			// Get repo info
+			dojo.io.script.get({
+				url: 'https://api.github.com/users/'+args.user+'/repos',
+		      	callbackParamName: "callback",
+		      	load: dojo.hitch(this,function(obj){ 
+					this.repos = obj.data;
+					var jsonText = JSON.stringify(obj.data);
+					this.store.set('repo_data', jsonText);
+					this._index = 0;
+					this._pageMax = this.count;
+					// For each repo, built an entry
+					for(var i=0; i<this.repos.length; i++)
+						this.createRepoEntry(this.repos[i]);
+				}),
+		      	error: function(error){ console.error(error); }
+			});	
+		}
+	};
+	
+	this.loadUser = function(){
+		var user = JSON.parse(this.store.get('user_data'));
+		if(user && this.cache){
+			console.log('using cache');
+			this.createFrame();
+			this.createFrameHeader(user);
+			this.loadRepos();
+		}else{
+			dojo.io.script.get({
+				url: 'https://api.github.com/users/'+args.user,
+		      	callbackParamName: "callback",
+		      	load: dojo.hitch(this,function(obj){ 
+					this.createFrame();
+					var jsonText = JSON.stringify(obj.data);
+					this.store.set('user_data', jsonText);
+					this.createFrameHeader(obj.data);
+					this.loadRepos();
+				}),
+		      	error: function(error){ console.error(error); }
+			});
+		}
+	};
+	
 	// Dynamically load JS script with callback
 	this.loadScript = function(sScriptSrc,callbackfunction) {
 		var oHead = document.getElementsByTagName('head')[0];
@@ -300,51 +352,18 @@ var Gitview = function(args){
 	this.kickStart = function(){
 		dojo.require('dojo.io.script');
 		dojo.ready(this,function(){
+			// Create cache
+			this.store = new Persist.Store('Gitview');
+			
 			// load helper css
 			this.loadTemplate('http://logicalcognition.com/files/gitviewFiles/gh-buttons.css');
 			
 			// ASYNC UGLINESS
 			// Get user info if we built a frame (avatar, etc.)
-			if(this.frame){
-				dojo.io.script.get({
-					url: 'https://api.github.com/users/'+args.user,
-			      	callbackParamName: "callback",
-			      	load: dojo.hitch(this,function(obj){ 
-						this.createFrame();
-						this.createFrameHeader(obj.data);
-						// Get repo info
-						dojo.io.script.get({
-							url: 'https://api.github.com/users/'+args.user+'/repos',
-					      	callbackParamName: "callback",
-					      	load: dojo.hitch(this,function(obj){ 
-								this.repos = obj.data;
-								this._index = 0;
-								this._pageMax = this.count;
-								// For each repo, built an entry
-								for(var i=0; i<this.repos.length; i++)
-									this.createRepoEntry(this.repos[i]);
-							}),
-					      	error: function(error){ console.error(error); }
-						});
-					}),
-			      	error: function(error){ console.error(error); }
-				});
-			}else{
-				// Get repo info
-				dojo.io.script.get({
-					url: 'https://api.github.com/users/'+args.user+'/repos',
-			      	callbackParamName: "callback",
-			      	load: dojo.hitch(this,function(obj){ 
-						this.repos = obj.data;
-						this._index = 0;
-						this._pageMax = this.count;
-						// For each repo, built an entry
-						for(var i=0; i<this.repos.length; i++)
-							this.createRepoEntry(this.repos[i]);
-					}),
-			      	error: function(error){ console.error(error); }
-				});
-			}
+			if(this.frame)
+				this.loadUser();
+			else
+				this.loadRepos();
 		});
 	};
 	
@@ -356,7 +375,8 @@ var Gitview = function(args){
 		this.user 		= args.user;
 		this.domNode 	= args.domNode ? args.domNode : document.body;
 		this.compact 	= args.compact==true ? true : false;
-		this.frame	 	= args.noFrame!=true ? true : false;
+		this.frame	 	= !(args.noFrame==true ? true : false);
+		this.cache		= args.cache==false ? false : true;
 		this.count		= args.count ? args.count : 3;
 		this.w			= args.width ? args.width : '440px';
 		this.w			= this.w.substring(0,this.w.length-2)<300 ? '350px' : this.w;
@@ -370,7 +390,9 @@ var Gitview = function(args){
 		if (!Function.prototype.bind) Function.prototype.bind = this.bind;
 		
 		// Dynamically load scripts and continue building
-		this.loadScript('http://logicalcognition.com/Projects/Gitgraph/Gitgraph.js',this.bootstrap.bind(this));	
+		this.loadScript('http://logicalcognition.com/Projects/persist-js/persist-min.js',function(){
+			this.loadScript('http://logicalcognition.com/Projects/Gitgraph/Gitgraph.js',this.bootstrap.bind(this));	
+		}.bind(this));
 	}
 };
 
@@ -384,10 +406,12 @@ if (window.jQuery) {
 	            var view = new Gitview({ 
 	                user    : args.user,     
 	                domNode : $(this)[0], 
-	                compact : args.compact || false,
-					noFrame : args.noFrame || false,
-					count  	: args.count || 3,
-					width   : args.width || 'auto'
+	                compact : args.compact==true ? true : false,
+					noFrame : !(args.noFrame==true ? true : false),
+					cache   : args.cache==false ? false : true,
+					count  	: args.count ? args.count : 3,
+					width   : args.width ? args.width : '440px',
+					frameColor : args.frameColor ? args.frameColor : '#444'
 	            });
 	        });
 		}

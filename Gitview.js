@@ -380,7 +380,6 @@ var Gitview = function(args){
 		this.w			= args.width ? args.width : '440px';
 		this.w			= this.w.substring(0,this.w.length-2)<300 ? '350px' : this.w;
 		this.frameColor	= args.frameColor ? args.frameColor : '#444';
-		this.id			= Math.floor(Math.random()*10000000000001);
 		this.repos 		= [];
 		this.entries 	= [];
 		this.bottoms 	= [];

@@ -261,7 +261,7 @@ var Gitview = function(args){
 		      	load: dojo.hitch(this,function(obj){ 
 					this.repos = obj.data;
 					var jsonText = JSON.stringify(obj.data);
-					this.store.set('repo_data', jsonText);
+					this.store.set('repo_data_'+this.id, jsonText);
 					this._index = 0;
 					this._pageMax = this.count;
 					// For each repo, built an entry
@@ -287,7 +287,7 @@ var Gitview = function(args){
 		      	load: dojo.hitch(this,function(obj){ 
 					this.createFrame();
 					var jsonText = JSON.stringify(obj.data);
-					this.store.set('user_data', jsonText);
+					this.store.set('user_data_'+this.id, jsonText);
 					this.createFrameHeader(obj.data);
 					this.loadRepos();
 				}),
@@ -381,6 +381,7 @@ var Gitview = function(args){
 		this.w			= args.width ? args.width : '440px';
 		this.w			= this.w.substring(0,this.w.length-2)<300 ? '350px' : this.w;
 		this.frameColor	= args.frameColor ? args.frameColor : '#444';
+		this.id			= Math.floor(Math.random()*10000000000001);
 		this.repos 		= [];
 		this.entries 	= [];
 		this.bottoms 	= [];

@@ -408,7 +408,7 @@ if (window.jQuery) {
 	                user    : args.user,     
 	                domNode : $(this)[0], 
 	                compact : args.compact==true ? true : false,
-					noFrame : !(args.noFrame==true ? true : false),
+					noFrame : args.noFrame==true ? true : false,
 					cache   : args.cache==false ? false : true,
 					count  	: args.count ? args.count : 3,
 					width   : args.width ? args.width : '440px',

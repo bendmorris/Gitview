@@ -244,6 +244,7 @@ var Gitview = function(args){
 		return date;
 	};
 	
+	// Loads repos using JSONP
 	this.loadRepos = function(){
 		var repos = JSON.parse(this.store.get('repo_data_'+this.user));
 		if(repos && this.cache){
@@ -273,6 +274,7 @@ var Gitview = function(args){
 		}
 	};
 	
+	// load user data using JSONP
 	this.loadUser = function(){
 		var user = JSON.parse(this.store.get('user_data_'+this.user));
 		if(user && this.cache){

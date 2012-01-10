@@ -3,7 +3,7 @@
   	<head>
 		<title>Gitview</title>
 		<meta content="js widget to list github repositories" name="description" />
-		<link href="http://fonts.googleapis.com/css?family=Amaranth:400,700" rel="stylesheet" type="text/css">
+		<link href="http://fonts.googleapis.com/css?family=Amaranth:400,700" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="demo.css" type="text/css" />
 		<link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
 		<script type="text/javascript" src="google-code-prettify/prettify.js"></script>
@@ -40,6 +40,9 @@
 		</div>
 		<div id="usage">
 			<span class="examples">Usage</span><br>
+			Make sure you're using the HTML5 doctype at the top of your html
+			<pre class="prettyprint code">
+&lt;!DOCTYPE html&gt;</pre>
 			Paste into your page's HEAD
 			<pre class="prettyprint code">
 &lt;script src="http://logicalcognition.com/Projects/Gitview/Gitview.js"&gt;&lt;/script&gt;</pre>
@@ -64,7 +67,7 @@ $('#foo').gitview({
   frameColor : 'grey'      // (optional) frame background color
   compact    : false,      // (optional) compact mode or full mode?
   noFrame    : false,      // (optional) no fancy widget frame, just repositories
-  cache		 : true        // (optional) turn local caching on or off, on by default
+  cache      : true        // (optional) turn local caching on or off, on by default
 });</pre>
 			
 			FYI, the script uses a little Dojo, and will require it if its not already loaded. Nothing to worry about!<br><br>

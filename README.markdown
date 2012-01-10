@@ -21,6 +21,12 @@ Small
 
 ##Usage
 
+* Make sure you're using the HTML5 doctype at the top of your html
+
+	```console
+	<!DOCTYPE html>
+	```
+
 * Paste into your page's HEAD
 
 	```console

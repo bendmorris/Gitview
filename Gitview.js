@@ -173,7 +173,7 @@ var Gitview = function(args){
 	
 		//3. Participation graph & last updated
 		var updated = dojo.create('div',{
-			innerHTML:'Last updated '+this.fixUpdateDate(obj.updated_at),
+			innerHTML:'Last updated '+this.fixUpdateDate(obj.pushed_at),
 			style:'font:11px arial;color:#888;margin-top:5px;margin-left:10px;'
 		},bottom);
 		
@@ -333,8 +333,8 @@ var Gitview = function(args){
 	// Sorts repos based on update date
 	this.sortRepos = function(arr){
 		arr.sort(function(a, b){
-		    var keyA = new Date(a.updated_at),
-		    keyB = new Date(b.updated_at);
+		    var keyA = new Date(a.pushed_at),
+		    keyB = new Date(b.pushed_at);
 		    // Compare the 2 dates
 		    if(keyA < keyB) return -1;
 		    if(keyA > keyB) return 1;

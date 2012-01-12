@@ -246,9 +246,12 @@ var Gitview = function(args){
 	
 	// Loads repos using JSONP
 	this.loadRepos = function(){
+		// Try to get repos from cache if we can
 		var repos = JSON.parse(this.store.get('repo_data_'+this.user));
+		// If we have them in the cache, don't do an XHR request, just build
 		if(repos && this.cache){
 			this.repos = repos;
+			this.sortRepos(this.repos);
 			this._index = 0;
 			this._pageMax = this.count;
 			// For each repo, built an entry
@@ -261,6 +264,7 @@ var Gitview = function(args){
 		      	callbackParamName: "callback",
 		      	load: dojo.hitch(this,function(obj){ 
 					this.repos = obj.data;
+					this.sortRepos(this.repos);
 					var jsonText = JSON.stringify(obj.data);
 					this.store.set('repo_data_'+this.user, jsonText);
 					this._index = 0;
@@ -276,7 +280,9 @@ var Gitview = function(args){
 	
 	// load user data using JSONP
 	this.loadUser = function(){
+		// Try to get user info from cache if we can
 		var user = JSON.parse(this.store.get('user_data_'+this.user));
+		// If we have it in the cache, don't do an XHR request, just build
 		if(user && this.cache){
 			this.createFrame();
 			this.createFrameHeader(user);
@@ -323,6 +329,19 @@ var Gitview = function(args){
         e.media = "screen";
         document.getElementsByTagName("head")[0].appendChild(e);
     };
+
+	// Sorts repos based on update date
+	this.sortRepos = function(arr){
+		arr.sort(function(a, b){
+		    var keyA = new Date(a.updated_at),
+		    keyB = new Date(b.updated_at);
+		    // Compare the 2 dates
+		    if(keyA < keyB) return -1;
+		    if(keyA > keyB) return 1;
+		    return 0;
+		});
+		arr.reverse();
+	};
 	
 	// Bind, for browsers not supporting it by default
 	this.bind = function (oThis){

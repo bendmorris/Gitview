@@ -124,7 +124,7 @@ var Gitview = function(args){
 		//3. title
 		var repoName = dojo.create('a',{ innerHTML: obj.name, href:'https://github.com/'+this.user+'/'+obj.name,
 			style:'color:#4183C4;font-size:14px;font-weight:bold;font-family:arial;position:relative;top:-3px;'
-			+'margin-left:6px;text-decoration:none',
+			+'margin-left:6px;text-decoration:none'
 		},top);
 		dojo.connect(repoName,'onmouseover',function(e){ dojo.style(e.target,'textDecoration','underline') });
 		dojo.connect(repoName,'onmouseout',function(e){ dojo.style(e.target,'textDecoration','none') });

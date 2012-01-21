@@ -41,7 +41,7 @@ Small
 	  domNode    : document.body,  // (optional) domNode to attach to
 	  count      : 2,              // (optional) number of repos per widget page
 	  width      : '450px',        // (optional) width of widget / repos
-	  frameColor : 'grey'          // (optional) frame background color
+	  frameColor : 'grey',          // (optional) frame background color
 	  compact    : false,          // (optional) compact mode or full mode?
 	  noFrame    : false,          // (optional) no fancy widget frame, just repositories
 	  cache		 : true            // (optional) turn local caching on or off, on by default
@@ -55,7 +55,7 @@ Small
 	  user       : 'bouchon',      // any github username
 	  count      : 2,              // (optional) number of repos per widget page
 	  width      : '450px',        // (optional) width of widget / repos
-	  frameColor : 'grey'          // (optional) frame background color
+	  frameColor : 'grey',          // (optional) frame background color
 	  compact    : false,          // (optional) compact mode or full mode?
 	  noFrame    : false,          // (optional) no fancy widget frame, just repositories
 	  cache		 : true            // (optional) turn local caching on or off, on by default

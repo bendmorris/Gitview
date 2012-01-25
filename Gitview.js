@@ -139,14 +139,14 @@ var Gitview = function(args){
 		
 		//6. watchers
 		var watchers = dojo.create('a',{
-			innerHTML:'<img src="http://logicalcognition.com/images/repostat_watchers.png"/>&nbsp;<font color="#666;">'+obj.watchers+'</font>',
+			innerHTML:'<img src="http://logicalcognition.com/files/gitviewFiles/repostat_watchers.png"/>&nbsp;<font color="#666;">'+obj.watchers+'</font>',
 			href:'https://github.com/'+this.user+'/'+obj.name+'/watchers',
 			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;'
 		},stats);
 		
 		//7. forks
 		var forks = dojo.create('a',{
-			innerHTML:'<img src="http://logicalcognition.com/images/repostat_forks.png"/>&nbsp;<font color="#666;">'+obj.forks+'</font>',
+			innerHTML:'<img src="http://logicalcognition.com/files/gitviewFiles/repostat_forks.png"/>&nbsp;<font color="#666;">'+obj.forks+'</font>',
 			href:'https://github.com/'+this.user+'/'+obj.name+'/network',
 			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;margin-right:15px'
 		},stats);

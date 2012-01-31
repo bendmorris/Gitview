@@ -84,26 +84,28 @@ var Gitview = function(args){
 	
 	// Builds each repo node
 	this.createRepoEntry = function(obj,showAsCompact){
-		//1. repo container
-		var container = dojo.create('div',{
-			'class':'entry',
-			style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:5px;background:white;"
-		},this.domNode);
-		this.entries.push(container);
-		if(!this.frame) dojo.style(container,'width',this.w);
-		if(this.compact) dojo.style(container,'marginBottom','5px');
-		if(this._index >= this.count)
-			dojo.style(container,'display','none');
-		
-		//2. build top section
-		var top = this.createTop(obj, container);
-		this.tops.push(top);
-		
-		//3. build bottom section
-		var bottom = this.createBottom(obj, container);	
-		this.bottoms.push(bottom);
-		
-		this._index++;
+		if(!obj.fork || (obj.fork && this.showForks)){
+			//1. repo container
+			var container = dojo.create('div',{
+				'class':'entry',
+				style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:5px;background:white;"
+			},this.domNode);
+			this.entries.push(container);
+			if(!this.frame) dojo.style(container,'width',this.w);
+			if(this.compact) dojo.style(container,'marginBottom','5px');
+			if(this._index >= this.count)
+				dojo.style(container,'display','none');
+
+			//2. build top section
+			var top = this.createTop(obj, container);
+			this.tops.push(top);
+
+			//3. build bottom section
+			var bottom = this.createBottom(obj, container);	
+			this.bottoms.push(bottom);
+
+			this._index++;
+		}
 	};
 	
 	// Builds entry top (title, forks, watchers, etc.)
@@ -116,8 +118,9 @@ var Gitview = function(args){
 		if(this.compact) dojo.style(top,'borderBottom','0px');
 		
 		//2. smiley icon
+		var s = (obj.fork) ? 'http://logicalcognition.com/files/gitviewFiles/fork.png' : 'https://a248.e.akamai.net/assets.github.com/images/icons/public.png'
 		dojo.create('img',{
-			src:'https://a248.e.akamai.net/assets.github.com/images/icons/public.png',
+			src:s,
 			style:'margin-left:6px'
 		},top);
 		
@@ -206,7 +209,7 @@ var Gitview = function(args){
 	// Go to next page of repos
 	this.nextPage = function(){
 		var lower = this._pageMax;
-		this._pageMax = ((this._pageMax+this.count)<=this.repos.length) ? (this._pageMax+this.count) : this.repos.length;
+		this._pageMax = ((this._pageMax+this.count)<=this._repoCount) ? (this._pageMax+this.count) : this._repoCount;
 		var upper = this._pageMax;
 		if(lower != upper){
 			for(var i=0; i<this.entries.length; i++){
@@ -257,6 +260,7 @@ var Gitview = function(args){
 			// For each repo, built an entry
 			for(var i=0; i<this.repos.length; i++)
 				this.createRepoEntry(this.repos[i]);
+			this._repoCount = dojo.query('.entry').length;
 		}else{
 			// Get repo info
 			dojo.io.script.get({
@@ -264,6 +268,7 @@ var Gitview = function(args){
 		      	callbackParamName: "callback",
 		      	load: dojo.hitch(this,function(obj){ 
 					this.repos = obj.data;
+					console.log(this.repos);
 					this.sortRepos(this.repos);
 					var jsonText = JSON.stringify(obj.data);
 					this.store.set('repo_data_'+this.user, jsonText);
@@ -272,6 +277,7 @@ var Gitview = function(args){
 					// For each repo, built an entry
 					for(var i=0; i<this.repos.length; i++)
 						this.createRepoEntry(this.repos[i]);
+					this._repoCount = dojo.query('.entry').length;
 				}),
 		      	error: function(error){ console.error(error); }
 			});	
@@ -396,6 +402,7 @@ var Gitview = function(args){
 		this.domNode 	= args.domNode ? args.domNode : document.body;
 		this.compact 	= args.compact==true ? true : false;
 		this.frame	 	= !(args.noFrame==true ? true : false);
+		this.showForks  = args.showForks==false ? false : true;
 		this.cache		= args.cache==false ? false : true;
 		this.count		= args.count ? args.count : 3;
 		this.w			= args.width ? args.width : '440px';
@@ -424,14 +431,15 @@ if (window.jQuery) {
 		}else{
 			this.each(function () {
 	            var view = new Gitview({ 
-	                user    : args.user,     
-	                domNode : $(this)[0], 
-	                compact : args.compact==true ? true : false,
-					noFrame : args.noFrame==true ? true : false,
-					cache   : args.cache==false ? false : true,
-					count  	: args.count ? args.count : 3,
-					width   : args.width ? args.width : '440px',
-					frameColor : args.frameColor ? args.frameColor : '#444'
+	                user    	: args.user,     
+	                domNode 	: $(this)[0], 
+	                compact 	: args.compact==true ? true : false,
+					noFrame 	: args.noFrame==true ? true : false,
+					cache   	: args.cache==false ? false : true,
+					showForks	: args.showForks==false ? false : true,
+					count  		: args.count ? args.count : 3,
+					width   	: args.width ? args.width : '440px',
+					frameColor 	: args.frameColor ? args.frameColor : '#444'
 	            });
 	        });
 		}

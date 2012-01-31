@@ -40,6 +40,7 @@ Small
 	  user       : 'bouchon',      // any github username
 	  domNode    : document.body,  // (optional) domNode to attach to
 	  count      : 2,              // (optional) number of repos per widget page
+	  showForks  : true,           // (optional) show forked repos, true by default
 	  width      : '450px',        // (optional) width of widget / repos
 	  frameColor : 'grey',          // (optional) frame background color
 	  compact    : false,          // (optional) compact mode or full mode?
@@ -54,6 +55,7 @@ Small
 	$('#foo').gitview({
 	  user       : 'bouchon',      // any github username
 	  count      : 2,              // (optional) number of repos per widget page
+	  showForks  : true,           // (optional) show forked repos, true by default
 	  width      : '450px',        // (optional) width of widget / repos
 	  frameColor : 'grey',          // (optional) frame background color
 	  compact    : false,          // (optional) compact mode or full mode?

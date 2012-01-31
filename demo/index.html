@@ -52,6 +52,7 @@ var view = new Gitview({
   user       : 'bouchon',      // any github username
   domNode    : document.body,  // domNode to attach to
   count      : 2,              // (optional) number of repos per widget page
+  showForks  : true,           // (optional) show forked repos, true by default
   width      : '450px',        // (optional) width of widget
   frameColor : 'grey',          // (optional) frame background color
   compact    : false,          // (optional) compact mode or full mode?
@@ -63,6 +64,7 @@ var view = new Gitview({
 $('#foo').gitview({
   user       : 'bouchon',  // any github username
   count      : 2,          // (optional) number of repos per widget page
+  showForks  : true,       // (optional) show forked repos, true by default
   width      : '450px',    // (optional) width of widget
   frameColor : 'grey',      // (optional) frame background color
   compact    : false,      // (optional) compact mode or full mode?

@@ -268,7 +268,6 @@ var Gitview = function(args){
 		      	callbackParamName: "callback",
 		      	load: dojo.hitch(this,function(obj){ 
 					this.repos = obj.data;
-					console.log(this.repos);
 					this.sortRepos(this.repos);
 					var jsonText = JSON.stringify(obj.data);
 					this.store.set('repo_data_'+this.user, jsonText);

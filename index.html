@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Gitview by bouchon</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/bouchon/Gitview">Fork On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/bouchon/Gitview/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/bouchon/Gitview/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Gitview</h1>
+          <p>js widget to list github repositories</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/bouchon">bouchon</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h2>About</h2>
+
+<p>Show your Github repositories on any website using this widget. It only takes a few lines of code to install, it can be used as a jQuery widget, and it mimics the styling of the Github dashboard. All data is asynchronously loaded and can be optionally cached.</p>
+
+<h2>Usage</h2>
+
+<p>Make sure you're using the HTML5 doctype at the top of your html:</p>
+
+<div class="highlight">
+<pre><span class="go">&lt;!DOCTYPE html&gt;</span>
+</pre>
+</div>
+
+
+<p>Include the script in your page's HEAD:</p>
+
+<div class="highlight">
+<pre><span class="go">&lt;script src="<a href="http://logicalcognition.com/Projects/Gitview/Gitview.js&quot;&gt;&lt;/script">http://logicalcognition.com/Projects/Gitview/Gitview.js"&gt;&lt;/script</a>&gt;</span>
+</pre>
+</div>
+
+
+<p>Build the widget from a within a script tag or js file:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Gitview</span><span class="p">({</span> 
+  <span class="nx">user</span>       <span class="o">:</span> <span class="s1">'bouchon'</span><span class="p">,</span>      <span class="c1">// any github username</span>
+  <span class="nx">domNode</span>    <span class="o">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">,</span>  <span class="c1">// (optional) domNode to attach to</span>
+  <span class="nx">count</span>      <span class="o">:</span> <span class="mi">2</span><span class="p">,</span>              <span class="c1">// (optional) number of repos per widget page</span>
+  <span class="nx">showForks</span>  <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>           <span class="c1">// (optional) show forked repos, true by default</span>
+  <span class="nx">width</span>      <span class="o">:</span> <span class="s1">'450px'</span><span class="p">,</span>        <span class="c1">// (optional) width of widget / repos</span>
+  <span class="nx">frameColor</span> <span class="o">:</span> <span class="s1">'grey'</span><span class="p">,</span>         <span class="c1">// (optional) frame background color</span>
+  <span class="nx">compact</span>    <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>          <span class="c1">// (optional) compact mode or full mode?</span>
+  <span class="nx">noFrame</span>    <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>          <span class="c1">// (optional) no fancy widget frame, just repositories</span>
+  <span class="nx">cache</span>      <span class="o">:</span> <span class="kc">true</span>            <span class="c1">// (optional) turn local caching on or off, on by default</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<p>Or use it as a jQuery plugin:</p>
+
+<div class="highlight">
+<pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#foo'</span><span class="p">).</span><span class="nx">gitview</span><span class="p">({</span>
+  <span class="nx">user</span>       <span class="o">:</span> <span class="s1">'bouchon'</span><span class="p">,</span>      <span class="c1">// any github username</span>
+  <span class="nx">count</span>      <span class="o">:</span> <span class="mi">2</span><span class="p">,</span>              <span class="c1">// (optional) number of repos per widget page</span>
+  <span class="nx">showForks</span>  <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>           <span class="c1">// (optional) show forked repos, true by default</span>
+  <span class="nx">width</span>      <span class="o">:</span> <span class="s1">'450px'</span><span class="p">,</span>        <span class="c1">// (optional) width of widget / repos</span>
+  <span class="nx">frameColor</span> <span class="o">:</span> <span class="s1">'grey'</span><span class="p">,</span>         <span class="c1">// (optional) frame background color</span>
+  <span class="nx">compact</span>    <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>          <span class="c1">// (optional) compact mode or full mode?</span>
+  <span class="nx">noFrame</span>    <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>          <span class="c1">// (optional) no fancy widget frame, just repositories</span>
+  <span class="nx">cache</span>      <span class="o">:</span> <span class="kc">true</span>            <span class="c1">// (optional) turn local caching on or off, on by default</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<p>FYI, the script uses a little Dojo, and will require it if its not already loaded. Nothing to worry about! Thanks <a href="https://github.com/teddyzetterlund" class="user-mention">@teddyzetterlund</a>.</p>
+
+<h2>Issues &amp; Features</h2>
+
+<p>File under the Issues section and feel free to fork and pull-request</p>
+
+<h2>License</h2>
+
+<p>WTFPL</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>

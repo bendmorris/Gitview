@@ -14,7 +14,7 @@ JS widget to list github repositories. Mimics dashboard style.
 * Paste into your page's HEAD
 
 	```console
-	<script src="http://logicalcognition.com/Projects/Gitview/Gitview.js"></script>
+	<script src="https://raw.github.com/bouchon/Gitview/master/Gitview.js"></script>
 	```
 
 * From within a script tag or a JS file

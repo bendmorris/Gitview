@@ -1,10 +1,59 @@
 var Gitview = function(args){
+    // Get required scripts loaded
+	this.bootstrap = function(){
+		if(!window.dojo)
+			this.loadScript('http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js',
+			this.kickStart.bind(this));
+		else this.kickStart.bind(this)();
+	};
+	
+	// Kick things off once Gitgraph, Dojo, & PersistJS are loaded
+	this.kickStart = function(){
+		dojo.require('dojo.io.script');
+		dojo.ready(this,function(){
+			// Create cache
+			this.store = new Persist.Store('Gitview');
+			// load helper css
+			this.loadTemplate('http://logicalcognition.com/files/gitviewFiles/gh-buttons.css');
+			// Get user info if we built a frame (avatar, etc.)
+			if(this.frame) this.loadUser();
+			// Otherwise go straight to loading repos
+			else this.loadRepos();
+		});
+	};
+	
+	// load user data using JSONP
+	this.loadUser = function(){
+		// Try to get user info from cache if we can
+		var user = JSON.parse(this.store.get('user_data_'+this.user));
+		// If we have it in the cache, don't do an XHR request, just build
+		if(user && this.cache){
+			this.createFrame();
+			this.createFrameHeader(user);
+			this.loadRepos();
+		}else{
+			dojo.io.script.get({
+				url: 'https://api.github.com/users/'+args.user,
+		      	callbackParamName: "callback",
+		      	load: dojo.hitch(this,function(obj){ 
+					this.createFrame();
+					var jsonText = JSON.stringify(obj.data);
+					this.store.set('user_data_'+this.user, jsonText);
+					this.createFrameHeader(obj.data);
+					this.loadRepos();
+				}),
+		      	error: function(error){ console.error(error); }
+			});
+		}
+	};
+	
 	// Builds optional outer frame
 	this.createFrame = function(){
 		//outer
 		var outer = dojo.create('div',{
 			'class':'outer',
-			style:'position:relative;text-align:left;line-height:15px;padding:5px 5px 23px 5px;background:'+this.frameColor+';border-radius:5px;width:'+this.w+';'
+			style:'position:relative;text-align:left;line-height:15px;padding:5px 5px 23px 5px;background:'+
+			    this.frameColor+';border-radius:5px;width:'+this.w+';'
 		},this.domNode);
 		//inner
 		var inner = dojo.create('div',{
@@ -29,24 +78,20 @@ var Gitview = function(args){
 		var table = dojo.create('table',{'style':'height:47px;width:100%;border-spacing:0;'
 		+'border-collapse:collapse;margin:0px;padding:0px;'},this.domNode,'before');
 		var row = dojo.create('tr',{},table);
-		
 		//2. avater cell
 		var avatarCell = dojo.create('td',{style:'width:41px;vertical-align:top;padding:0px;'},row);
 		var otherCell = dojo.create('td',{style:'padding:0px;'},row);
-		
 		//3. avatar
 		dojo.create('img',{
 			src:data.avatar_url,
 			style:'width:40px;height:auto;border-radius:2px;position:relative;'
 		},avatarCell);
-		
 		//4. user name
 		dojo.create('span',{
 			innerHTML:data.login+'<br>',
 			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:13px;'
 			+'color:white;font-weight:bold;margin-left:6px'
 		},otherCell);
-		
 		//5. followers
 		var t = dojo.create('span',{
 			innerHTML:data.followers+' follower',
@@ -54,17 +99,13 @@ var Gitview = function(args){
 		},otherCell);
 		if(data.followers > 1 || data.followers == 0)
 			t.innerHTML += 's';
-		
 		//6. repos
 		var v = dojo.create('span',{
 			innerHTML:' - '+data.public_repos+' repositor',
 			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;color:#AAA;'
 		},otherCell);
-		if(data.public_repos > 1 || data.public_repos == 0)
-			v.innerHTML += 'ies';
-		else
-			v.innerHTML += 'y'
-			
+		if(data.public_repos > 1 || data.public_repos == 0) v.innerHTML += 'ies';
+		else v.innerHTML += 'y'
 		//7. toggle full / compact buttons
 		var x = dojo.create('span',{
 			innerHTML:'compact',
@@ -73,10 +114,10 @@ var Gitview = function(args){
 		},this.domNode,'before');
 		var w = dojo.create('span',{
 			innerHTML:'full',
-			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;color:#AAA;cursor:hand;cursor:pointer;'
+			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;'+
+			    'font-size:10px;color:#AAA;cursor:hand;cursor:pointer;'
 			+'position:absolute;top:38px;right:7px'
 		},this.domNode,'before');
-		
 		//8. connect things
 		dojo.connect(w,'onclick',this,'toggleFull');
 		dojo.connect(x,'onclick',this,'toggleCompact');
@@ -283,29 +324,17 @@ var Gitview = function(args){
 		}
 	};
 	
-	// load user data using JSONP
-	this.loadUser = function(){
-		// Try to get user info from cache if we can
-		var user = JSON.parse(this.store.get('user_data_'+this.user));
-		// If we have it in the cache, don't do an XHR request, just build
-		if(user && this.cache){
-			this.createFrame();
-			this.createFrameHeader(user);
-			this.loadRepos();
-		}else{
-			dojo.io.script.get({
-				url: 'https://api.github.com/users/'+args.user,
-		      	callbackParamName: "callback",
-		      	load: dojo.hitch(this,function(obj){ 
-					this.createFrame();
-					var jsonText = JSON.stringify(obj.data);
-					this.store.set('user_data_'+this.user, jsonText);
-					this.createFrameHeader(obj.data);
-					this.loadRepos();
-				}),
-		      	error: function(error){ console.error(error); }
-			});
-		}
+	// Sorts repos based on update date
+	this.sortRepos = function(arr){
+		arr.sort(function(a, b){
+		    var keyA = new Date(a.pushed_at),
+		    keyB = new Date(b.pushed_at);
+		    // Compare the 2 dates
+		    if(keyA < keyB) return -1;
+		    if(keyA > keyB) return 1;
+		    return 0;
+		});
+		arr.reverse();
 	};
 	
 	// Dynamically load JS script with callback
@@ -334,19 +363,6 @@ var Gitview = function(args){
         e.media = "screen";
         document.getElementsByTagName("head")[0].appendChild(e);
     };
-
-	// Sorts repos based on update date
-	this.sortRepos = function(arr){
-		arr.sort(function(a, b){
-		    var keyA = new Date(a.pushed_at),
-		    keyB = new Date(b.pushed_at);
-		    // Compare the 2 dates
-		    if(keyA < keyB) return -1;
-		    if(keyA > keyB) return 1;
-		    return 0;
-		});
-		arr.reverse();
-	};
 	
 	// Bind, for browsers not supporting it by default
 	this.bind = function (oThis){
@@ -364,34 +380,7 @@ var Gitview = function(args){
 		fBound.prototype = new fNOP();
 		return fBound;
 	};
-	
-	// Get required scripts loaded
-	this.bootstrap = function(){
-		if(!window.dojo)
-			this.loadScript('http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js',this.kickStart.bind(this));
-		else
-			this.kickStart.bind(this)();
-	};
-	
-	// Kick things off once Gitgraph is loaded
-	this.kickStart = function(){
-		dojo.require('dojo.io.script');
-		dojo.ready(this,function(){
-			// Create cache
-			this.store = new Persist.Store('Gitview');
-			
-			// load helper css
-			this.loadTemplate('http://logicalcognition.com/files/gitviewFiles/gh-buttons.css');
-			
-			// ASYNC UGLINESS
-			// Get user info if we built a frame (avatar, etc.)
-			if(this.frame)
-				this.loadUser();
-			else
-				this.loadRepos();
-		});
-	};
-	
+
 	// Initiatialization
 	if(!args || !args.user){
 		throw new Error('Gitview: missing user and/or domNode arg');
@@ -411,13 +400,12 @@ var Gitview = function(args){
 		this.entries 	= [];
 		this.bottoms 	= [];
 		this.tops 		= [];
-		
 		// Make sure bind( ) is a function
 		if (!Function.prototype.bind) Function.prototype.bind = this.bind;
-		
 		// Dynamically load scripts and continue building
-		this.loadScript('http://logicalcognition.com/Projects/persist-js/persist-min.js',function(){
-			this.loadScript('http://logicalcognition.com/Projects/Gitgraph/Gitgraph.js',this.bootstrap.bind(this));	
+		this.loadScript('https://raw.github.com/jeremydurham/persist-js/master/src/persist.js',function(){
+			this.loadScript('https://raw.github.com/bouchon/Gitgraph/master/Gitgraph.js',
+			this.bootstrap.bind(this));	
 		}.bind(this));
 	}
 };

@@ -2,16 +2,6 @@
 
 JS widget to list github repositories. Mimics dashboard style. [Demo](http://bouchon.github.com/Gitview).
 
-Regular
-
-
-![Alt text](http://logicalcognition.com/Projects/Gitview/demo/images/screenshot-current.png)
-
-Small
-
-
-![Alt text](http://logicalcognition.com/Projects/Gitview/demo/images/screenshot-current-small.png)
-
 ##Usage
 
 * Make sure you're using the HTML5 doctype at the top of your html

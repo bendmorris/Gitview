@@ -241,7 +241,8 @@ var Gitview = function(args){
 		//Slice & build repo description
 		var d = obj.description;
 		if(d.length > 100) d = d.slice(0,97)+'...';
-		var description = dojo.create('div',{innerHTML:d,style:'font:12px arial;margin-left:10px;height:30px'},bottom);
+		var description = dojo.create('div',{
+		    innerHTML:d,style:'font:12px arial;margin-left:10px;height:30px;color:black;'},bottom);
 		//Participation graph & last updated
 		var updated = dojo.create('div',{
 			innerHTML:'Last updated '+this.fixUpdateDate(obj.pushed_at),

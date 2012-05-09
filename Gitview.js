@@ -74,39 +74,37 @@ var Gitview = function(args){
 	
 	// Builds frame header (if frame arg is set to true)
 	this.createFrameHeader = function(data){
-		//1. table
+		//table
 		var table = dojo.create('table',{'style':'height:47px;width:100%;border-spacing:0;'
-		+'border-collapse:collapse;margin:0px;padding:0px;'},this.domNode,'before');
+		    +'border-collapse:collapse;margin:0px;padding:0px;'},this.domNode,'before');
 		var row = dojo.create('tr',{},table);
-		//2. avater cell
+		//avater cell
 		var avatarCell = dojo.create('td',{style:'width:41px;vertical-align:top;padding:0px;'},row);
 		var otherCell = dojo.create('td',{style:'padding:0px;'},row);
-		//3. avatar
+		//avatar
 		dojo.create('img',{
-			src:data.avatar_url,
-			style:'width:40px;height:auto;border-radius:2px;position:relative;'
+			src:data.avatar_url, style:'width:40px;height:auto;border-radius:2px;position:relative;'
 		},avatarCell);
-		//4. user name
+		//user name
 		dojo.create('span',{
 			innerHTML:data.login+'<br>',
 			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:13px;'
-			+'color:white;font-weight:bold;margin-left:6px'
+			    +'color:white;font-weight:bold;margin-left:6px'
 		},otherCell);
-		//5. followers
+		//followers
 		var t = dojo.create('span',{
 			innerHTML:data.followers+' follower',
 			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;color:#AAA;margin-left:6px'
 		},otherCell);
-		if(data.followers > 1 || data.followers == 0)
-			t.innerHTML += 's';
-		//6. repos
+		if(data.followers > 1 || data.followers == 0) t.innerHTML += 's';
+		//repos
 		var v = dojo.create('span',{
 			innerHTML:' - '+data.public_repos+' repositor',
 			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;color:#AAA;'
 		},otherCell);
 		if(data.public_repos > 1 || data.public_repos == 0) v.innerHTML += 'ies';
 		else v.innerHTML += 'y'
-		//7. toggle full / compact buttons
+		//toggle full / compact buttons
 		var x = dojo.create('span',{
 			innerHTML:'compact',
 			style:'font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;color:#AAA;'
@@ -122,171 +120,7 @@ var Gitview = function(args){
 		dojo.connect(w,'onclick',this,'toggleFull');
 		dojo.connect(x,'onclick',this,'toggleCompact');
 	};
-	
-	// Builds each repo node
-	this.createRepoEntry = function(obj,showAsCompact){
-		if(!obj.fork || (obj.fork && this.showForks)){
-			//1. repo container
-			var container = dojo.create('div',{
-				'class':'entry',
-				style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:5px;background:white;"
-			},this.domNode);
-			this.entries.push(container);
-			if(!this.frame) dojo.style(container,'width',this.w);
-			if(this.compact) dojo.style(container,'marginBottom','5px');
-			if(this._index >= this.count)
-				dojo.style(container,'display','none');
-
-			//2. build top section
-			var top = this.createTop(obj, container);
-			this.tops.push(top);
-
-			//3. build bottom section
-			var bottom = this.createBottom(obj, container);	
-			this.bottoms.push(bottom);
-
-			this._index++;
-		}
-	};
-	
-	// Builds entry top (title, forks, watchers, etc.)
-	this.createTop = function(obj, container){
-		//1. top (title, forks, watchers, etc.)
-		var top = dojo.create('div',{ 
-			'class':'top',
-			style:"height:32px;line-height:38px;border-bottom:1px solid #DDD;" 
-		},container);
-		if(this.compact) dojo.style(top,'borderBottom','0px');
-		
-		//2. smiley icon
-		var s = (obj.fork) ? 'http://logicalcognition.com/files/gitviewFiles/fork.png' : 'https://a248.e.akamai.net/assets.github.com/images/icons/public.png'
-		dojo.create('img',{
-			src:s,
-			style:'margin-left:6px'
-		},top);
-		
-		//3. title
-		var repoName = dojo.create('a',{ innerHTML: obj.name, href:'https://github.com/'+this.user+'/'+obj.name,
-			style:'color:#4183C4;font-size:14px;font-weight:bold;font-family:arial;position:relative;top:-3px;'
-			+'margin-left:6px;text-decoration:none'
-		},top);
-		dojo.connect(repoName,'onmouseover',function(e){ dojo.style(e.target,'textDecoration','underline') });
-		dojo.connect(repoName,'onmouseout',function(e){ dojo.style(e.target,'textDecoration','none') });
-		
-		//4. container for watchers & forks
-		var stats = dojo.create('div',{
-			style:'display:inline-block;float:right;color:#666;font-size:11px;font-family:arial;font-weight:bold;'
-		},top);
-		
-		//5. language if there is one
-		if(obj.language) dojo.create('span',{innerHTML:obj.language,'style':'position:relative;top:-3px;'},stats);
-		
-		//6. watchers
-		var watchers = dojo.create('a',{
-			innerHTML:'<img src="http://logicalcognition.com/files/gitviewFiles/repostat_watchers.png"/>&nbsp;<font color="#666;">'+obj.watchers+'</font>',
-			href:'https://github.com/'+this.user+'/'+obj.name+'/watchers',
-			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;'
-		},stats);
-		
-		//7. forks
-		var forks = dojo.create('a',{
-			innerHTML:'<img src="http://logicalcognition.com/files/gitviewFiles/repostat_forks.png"/>&nbsp;<font color="#666;">'+obj.forks+'</font>',
-			href:'https://github.com/'+this.user+'/'+obj.name+'/network',
-			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;margin-right:15px'
-		},stats);
-		
-		return top;
-	};
-	
-	// Builds entry bottom (graph, last updated, etc.)
-	this.createBottom = function(obj, container){
-		//1. Bottom (graph, last updated, etc.)
-		var bottom = dojo.create('div',{
-			'class':'bottom',
-			style:'border-bottom-right-radius:3px;border-bottom-left-radius:3px;padding-bottom:5px;padding-top:5px'
-		},container);
-		if(dojo.isWebKit)
-			dojo.style(bottom,'backgroundImage',"-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#EFEFEF))");
-		else if(dojo.isFF)
-			dojo.style(bottom,'background','-moz-linear-gradient(center top , #FAFAFA, #EFEFEF) repeat scroll 0 0 transparent');
-	
-		//2. Slice & build repo description
-		var d = obj.description;
-		if(d.length > 100) d = d.slice(0,97)+'...';
-		var description = dojo.create('div',{innerHTML:d,style:'font:12px arial;margin-left:10px;height:30px'},bottom);
-	
-		//3. Participation graph & last updated
-		var updated = dojo.create('div',{
-			innerHTML:'Last updated '+this.fixUpdateDate(obj.pushed_at),
-			style:'font:11px arial;color:#888;margin-top:5px;margin-left:10px;'
-		},bottom);
-		
-		//4. Graph
-		if(!this._tmpW) this._tmpW = (container.offsetWidth-35)+'px';
-		var graph = new Gitgraph({user:this.user,repo:obj.name,domNode:bottom,width:this._tmpW});
-		dojo.style(graph,'marginLeft','auto');
-		dojo.style(graph,'marginRight','auto');	
-		dojo.style(graph,'marginTop','5px');
-		dojo.style(graph,'marginBottom','5px');
-		
-		if(this.compact)
-			dojo.style(bottom, 'display', 'none');
-		
-		return bottom;
-	};
-	
-	// Toggles full mode
-	this.toggleFull = function(){
-		this.bottoms.forEach(function(node){ dojo.style(node,'display','block'); });
-		this.tops.forEach(function(node){ dojo.style(node,'borderBottom','1px solid #DDD1px solid #DDD'); });
-	};
-	
-	// Toggles compact mode
-	this.toggleCompact = function(){
-		this.bottoms.forEach(function(node){ dojo.style(node,'display','none'); });
-		this.tops.forEach(function(node){ dojo.style(node,'borderBottom','0px'); });
-	};
-	
-	// Go to next page of repos
-	this.nextPage = function(){
-		var lower = this._pageMax;
-		this._pageMax = ((this._pageMax+this.count)<=this._repoCount) ? (this._pageMax+this.count) : this._repoCount;
-		var upper = this._pageMax;
-		if(lower != upper){
-			for(var i=0; i<this.entries.length; i++){
-				if(i<lower)
-					dojo.style(this.entries[i],'display','none');
-				else if(i<upper)
-					dojo.style(this.entries[i],'display','block');
-			}
-		}
-	};
-	
-	// Go to prev page of repos
-	this.prevPage = function(){
-		var diff = 0;
-		dojo.forEach(this.entries,function(node){
-			if(dojo.style(node,'display')!='none')
-				diff++
-		});
-		this._pageMax = ((this._pageMax-diff)>=this.count) ? (this._pageMax-diff) : this.count;
-		var upper = this._pageMax;
-		var lower = ((this._pageMax-this.count)>=0) ? (this._pageMax-this.count) : 0;
-		if(!((upper==lower)&&(upper==0))){
-			for(var i=0; i<this.entries.length; i++){
-				if(i>=upper)
-					dojo.style(this.entries[i],'display','none');
-				else if(i>=lower)
-					dojo.style(this.entries[i],'display','block');
-			}
-		}
-	};
-	
-	// Changes regular formatted date into '1 day ago', '9 hours ago', etc.
-	this.fixUpdateDate = function(date){
-		// TODO: currently I just return the date as-is, I need to implement this
-		return date;
-	};
+    
 	
 	// Loads repos using JSONP
 	this.loadRepos = function(){
@@ -322,6 +156,146 @@ var Gitview = function(args){
 		      	error: function(error){ console.error(error); }
 			});	
 		}
+	};
+	
+	// Builds each repo node
+	this.createRepoEntry = function(obj,showAsCompact){
+		if(!obj.fork || (obj.fork && this.showForks)){
+			//repo container
+			var container = dojo.create('div',{
+				'class':'entry',
+				style:"text-align:left;border:1px solid #DDD;border-radius:4px;margin-bottom:5px;background:white;"
+			},this.domNode);
+			this.entries.push(container);
+			if(!this.frame) dojo.style(container,'width',this.w);
+			if(this.compact) dojo.style(container,'marginBottom','5px');
+			if(this._index >= this.count)
+				dojo.style(container,'display','none');
+			//build top section
+			var top = this.createTop(obj, container);
+			this.tops.push(top);
+			//build bottom section
+			var bottom = this.createBottom(obj, container);	
+			this.bottoms.push(bottom);
+			this._index++;
+		}
+	};
+	
+	// Builds entry top (title, forks, watchers, etc.)
+	this.createTop = function(obj, container){
+		//top (title, forks, watchers, etc.)
+		var top = dojo.create('div',{ 
+			'class':'top', style:"height:32px;line-height:38px;border-bottom:1px solid #DDD;" 
+		},container);
+		if(this.compact) dojo.style(top,'borderBottom','0px');
+		//smiley icon
+		var s = (obj.fork) ? 'https://github.com/bouchon/Gitview/raw/master/bin/fork.png' : 
+		    'https://a248.e.akamai.net/assets.github.com/images/icons/public.png'
+		dojo.create('img',{ src:s, style:'margin-left:6px' },top);
+		//title
+		var repoName = dojo.create('a',{ innerHTML: obj.name, href:'https://github.com/'+this.user+'/'+obj.name,
+			style:'color:#4183C4;font-size:14px;font-weight:bold;font-family:arial;position:relative;top:-3px;'
+			+'margin-left:6px;text-decoration:none'
+		},top);
+		dojo.connect(repoName,'onmouseover',function(e){ dojo.style(e.target,'textDecoration','underline') });
+		dojo.connect(repoName,'onmouseout',function(e){ dojo.style(e.target,'textDecoration','none') });
+		//container for watchers & forks
+		var stats = dojo.create('div',{
+			style:'display:inline-block;float:right;color:#666;font-size:11px;font-family:arial;font-weight:bold;'
+		},top);
+		//language if there is one
+		if(obj.language) dojo.create('span',{innerHTML:obj.language,'style':'position:relative;top:-3px;'},stats);
+		//watchers
+		var watchers = dojo.create('a',{
+			innerHTML:'<img src="https://github.com/bouchon/Gitview/raw/master/bin/repostat_watchers.png"/>'+
+			    '&nbsp;<font color="#666;">'+obj.watchers+'</font>',
+			href:'https://github.com/'+this.user+'/'+obj.name+'/watchers',
+			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;'
+		},stats);
+		//forks
+		var forks = dojo.create('a',{
+			innerHTML:'<img src="https://github.com/bouchon/Gitview/raw/master/bin/repostat_forks.png"/>'+
+			    '&nbsp;<font color="#666;">'+obj.forks+'</font>',
+			href:'https://github.com/'+this.user+'/'+obj.name+'/network',
+			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;margin-right:15px'
+		},stats);
+		return top;
+	};
+	
+	// Builds entry bottom (graph, last updated, etc.)
+	this.createBottom = function(obj, container){
+		//Bottom (graph, last updated, etc.)
+		var bottom = dojo.create('div',{
+			'class':'bottom',
+			style:'border-bottom-right-radius:3px;border-bottom-left-radius:3px;padding-bottom:5px;padding-top:5px'
+		},container);
+		if(dojo.isWebKit)
+			dojo.style(bottom,'backgroundImage',"-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#EFEFEF))");
+		else if(dojo.isFF)
+			dojo.style(bottom,'background','-moz-linear-gradient(center top , #FAFAFA, #EFEFEF) repeat scroll 0 0 transparent');
+		//Slice & build repo description
+		var d = obj.description;
+		if(d.length > 100) d = d.slice(0,97)+'...';
+		var description = dojo.create('div',{innerHTML:d,style:'font:12px arial;margin-left:10px;height:30px'},bottom);
+		//Participation graph & last updated
+		var updated = dojo.create('div',{
+			innerHTML:'Last updated '+this.fixUpdateDate(obj.pushed_at),
+			style:'font:11px arial;color:#888;margin-top:5px;margin-left:10px;'
+		},bottom);
+		//Graph
+		if(!this._tmpW) this._tmpW = (container.offsetWidth-35)+'px';
+		var graph = new Gitgraph({user:this.user,repo:obj.name,domNode:bottom,width:this._tmpW});
+		dojo.style(graph,'margin','5px auto 5px auto');
+		if(this.compact) dojo.style(bottom, 'display', 'none');
+		return bottom;
+	};
+	
+	// Toggles full mode
+	this.toggleFull = function(){
+		this.bottoms.forEach(function(node){ dojo.style(node,'display','block'); });
+		this.tops.forEach(function(node){ dojo.style(node,'borderBottom','1px solid #DDD1px solid #DDD'); });
+	};
+	
+	// Toggles compact mode
+	this.toggleCompact = function(){
+		this.bottoms.forEach(function(node){ dojo.style(node,'display','none'); });
+		this.tops.forEach(function(node){ dojo.style(node,'borderBottom','0px'); });
+	};
+	
+	// Go to next page of repos
+	this.nextPage = function(){
+		var lower = this._pageMax;
+		this._pageMax = ((this._pageMax+this.count)<=this._repoCount) ? (this._pageMax+this.count) : this._repoCount;
+		var upper = this._pageMax;
+		if(lower != upper){
+			for(var i=0; i<this.entries.length; i++){
+				if(i<lower) dojo.style(this.entries[i],'display','none');
+				else if(i<upper) dojo.style(this.entries[i],'display','block');
+			}
+		}
+	};
+	
+	// Go to prev page of repos
+	this.prevPage = function(){
+		var diff = 0;
+		dojo.forEach(this.entries,function(node){
+			if(dojo.style(node,'display')!='none') diff++
+		});
+		this._pageMax = ((this._pageMax-diff)>=this.count) ? (this._pageMax-diff) : this.count;
+		var upper = this._pageMax;
+		var lower = ((this._pageMax-this.count)>=0) ? (this._pageMax-this.count) : 0;
+		if(!((upper==lower)&&(upper==0))){
+			for(var i=0; i<this.entries.length; i++){
+				if(i>=upper) dojo.style(this.entries[i],'display','none');
+				else if(i>=lower) dojo.style(this.entries[i],'display','block');
+			}
+		}
+	};
+	
+	// Changes regular formatted date into '1 day ago', '9 hours ago', etc.
+	this.fixUpdateDate = function(date){
+		// TODO: currently I just return the date as-is, I need to implement this
+		return date;
 	};
 	
 	// Sorts repos based on update date

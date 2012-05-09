@@ -1,6 +1,7 @@
 ##Gitview
 
-JS widget to list github repositories. Mimics dashboard style. [Demo](http://bouchon.github.com/Gitview).
+JS widget to list github repositories. Mimics dashboard style. 
+[Demo](http://bouchon.github.com/Gitview).
 
 ##Usage
 

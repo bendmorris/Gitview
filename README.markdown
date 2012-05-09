@@ -1,6 +1,6 @@
 ##Gitview
 
-JS widget to list github repositories. Mimics dashboard style. To see it in action, visit [gitview.logicalcognition.com](http://gitview.logicalcognition.com).
+JS widget to list github repositories. Mimics dashboard style. [Demo](http://bouchon.github.com/Gitview).
 
 Regular
 
@@ -11,13 +11,6 @@ Small
 
 
 ![Alt text](http://logicalcognition.com/Projects/Gitview/demo/images/screenshot-current-small.png)
-
-##Supported Browsers
-
-* Safari 4+
-* Chrome 9+
-* Firefox 4+
-* Internet Explorer 8+
 
 ##Usage
 
@@ -35,14 +28,14 @@ Small
 
 * From within a script tag or a JS file
 	
-	```console
+	```javascript
 	var view = new Gitview({ 
 	  user       : 'bouchon',      // any github username
 	  domNode    : document.body,  // (optional) domNode to attach to
 	  count      : 2,              // (optional) number of repos per widget page
 	  showForks  : true,           // (optional) show forked repos, true by default
 	  width      : '450px',        // (optional) width of widget / repos
-	  frameColor : 'grey',          // (optional) frame background color
+	  frameColor : 'grey',         // (optional) frame background color
 	  compact    : false,          // (optional) compact mode or full mode?
 	  noFrame    : false,          // (optional) no fancy widget frame, just repositories
 	  cache		 : true            // (optional) turn local caching on or off, on by default
@@ -51,13 +44,13 @@ Small
 	
 * Or use it as a jQuery plugin
 	
-	```console
+	```javascript
 	$('#foo').gitview({
 	  user       : 'bouchon',      // any github username
 	  count      : 2,              // (optional) number of repos per widget page
 	  showForks  : true,           // (optional) show forked repos, true by default
 	  width      : '450px',        // (optional) width of widget / repos
-	  frameColor : 'grey',          // (optional) frame background color
+	  frameColor : 'grey',         // (optional) frame background color
 	  compact    : false,          // (optional) compact mode or full mode?
 	  noFrame    : false,          // (optional) no fancy widget frame, just repositories
 	  cache		 : true            // (optional) turn local caching on or off, on by default
@@ -65,10 +58,10 @@ Small
 	```
 	
 FYI, the script uses a little Dojo, and will require it if its not already loaded. Nothing to worry about! Thanks @teddyzetterlund .
-	
+
 ##Issues & Features
 
-File under the Issues section and feel free to fork and pull-request
+File under the Issues section or feel free to fork and pull-request
 
 ##License
 

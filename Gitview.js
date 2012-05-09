@@ -14,7 +14,7 @@ var Gitview = function(args){
 			// Create cache
 			this.store = new Persist.Store('Gitview');
 			// load helper css
-			this.loadTemplate('http://logicalcognition.com/files/gitviewFiles/gh-buttons.css');
+			this.loadTemplate('http://bouchon.github.com/Gitview/bin/gh-buttons.css');
 			// Get user info if we built a frame (avatar, etc.)
 			if(this.frame) this.loadUser();
 			// Otherwise go straight to loading repos
@@ -189,7 +189,7 @@ var Gitview = function(args){
 		},container);
 		if(this.compact) dojo.style(top,'borderBottom','0px');
 		//smiley icon
-		var s = (obj.fork) ? 'https://github.com/bouchon/Gitview/raw/master/bin/fork.png' : 
+		var s = (obj.fork) ? 'http://bouchon.github.com/Gitview/bin/fork.png' : 
 		    'https://a248.e.akamai.net/assets.github.com/images/icons/public.png'
 		dojo.create('img',{ src:s, style:'margin-left:6px' },top);
 		//title
@@ -207,14 +207,14 @@ var Gitview = function(args){
 		if(obj.language) dojo.create('span',{innerHTML:obj.language,'style':'position:relative;top:-3px;'},stats);
 		//watchers
 		var watchers = dojo.create('a',{
-			innerHTML:'<img src="https://github.com/bouchon/Gitview/raw/master/bin/repostat_watchers.png"/>'+
+			innerHTML:'<img src="http://bouchon.github.com/Gitview/bin/repostat_watchers.png"/>'+
 			    '&nbsp;<font color="#666;">'+obj.watchers+'</font>',
 			href:'https://github.com/'+this.user+'/'+obj.name+'/watchers',
 			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;'
 		},stats);
 		//forks
 		var forks = dojo.create('a',{
-			innerHTML:'<img src="https://github.com/bouchon/Gitview/raw/master/bin/repostat_forks.png"/>'+
+			innerHTML:'<img src="http://bouchon.github.com/Gitview/bin/repostat_forks.png"/>'+
 			    '&nbsp;<font color="#666;">'+obj.forks+'</font>',
 			href:'https://github.com/'+this.user+'/'+obj.name+'/network',
 			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;margin-right:15px'
@@ -232,7 +232,7 @@ var Gitview = function(args){
 		if(dojo.isWebKit)
 			dojo.style(bottom,'backgroundImage',"-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#EFEFEF))");
 		else if(dojo.isFF)
-			dojo.style(bottom,'background','-moz-linear-gradient(center top , #FAFAFA, #EFEFEF) repeat scroll 0 0 transparent');
+			dojo.style(bottom,'background','-moz-linear-gradient(center top,#FAFAFA,#EFEFEF) repeat scroll 0 0 transparent');
 		//Slice & build repo description
 		var d = obj.description;
 		if(d.length > 100) d = d.slice(0,97)+'...';

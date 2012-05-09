@@ -1,3 +1,8 @@
+//
+// JS widget to list github repositories
+// http://bouchon.github.com/Gitview
+//
+
 var Gitview = function(args){
     // Get required scripts loaded
 	this.bootstrap = function(){

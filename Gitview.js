@@ -219,7 +219,7 @@ var Gitview = function(args){
 		},stats);
 		//forks
 		var forks = dojo.create('a',{
-			innerHTML:'<img src="http://bouchon.github.com/Gitview/bin/forks.png"/>'+
+			innerHTML:'<img src="http://bouchon.github.com/Gitview/bin/fork.png"/>'+
 			    '&nbsp;<font color="#666;">'+obj.forks+'</font>',
 			href:'https://github.com/'+this.user+'/'+obj.name+'/network',
 			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;margin-right:15px'

@@ -195,7 +195,7 @@ var Gitview = function(args){
 		if(this.compact) dojo.style(top,'borderBottom','0px');
 		//smiley icon
 		var s = (obj.fork) ? 'http://bouchon.github.com/Gitview/bin/fork.png' : 
-		    'https://a248.e.akamai.net/assets.github.com/images/icons/public.png'
+		    'http://bouchon.github.com/Gitview/bin/gh-public.png'
 		dojo.create('img',{ src:s, style:'margin-left:6px' },top);
 		//title
 		var repoName = dojo.create('a',{ innerHTML: obj.name, href:'https://github.com/'+this.user+'/'+obj.name,
@@ -219,7 +219,7 @@ var Gitview = function(args){
 		},stats);
 		//forks
 		var forks = dojo.create('a',{
-			innerHTML:'<img src="http://bouchon.github.com/Gitview/bin/repostat_forks.png"/>'+
+			innerHTML:'<img src="http://bouchon.github.com/Gitview/bin/forks.png"/>'+
 			    '&nbsp;<font color="#666;">'+obj.forks+'</font>',
 			href:'https://github.com/'+this.user+'/'+obj.name+'/network',
 			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;margin-right:15px'

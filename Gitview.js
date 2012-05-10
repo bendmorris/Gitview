@@ -212,17 +212,17 @@ var Gitview = function(args){
 		if(obj.language) dojo.create('span',{innerHTML:obj.language,'style':'position:relative;top:-3px;'},stats);
 		//watchers
 		var watchers = dojo.create('a',{
-			innerHTML:'<img src="http://bouchon.github.com/Gitview/bin/repostat_watchers.png"/>'+
+			innerHTML:'<img style="position:relative; top:3px;" src="http://bouchon.github.com/Gitview/bin/repostat_watchers.png"/>'+
 			    '&nbsp;<font color="#666;">'+obj.watchers+'</font>',
 			href:'https://github.com/'+this.user+'/'+obj.name+'/watchers',
-			style:'position:relative;top:3px;margin-left:10px;text-decoration:none;'
+			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;'
 		},stats);
 		//forks
 		var forks = dojo.create('a',{
-			innerHTML:'<img src="http://bouchon.github.com/Gitview/bin/fork.png"/>'+
+			innerHTML:'<img style="position:relative; top:3px;" src="http://bouchon.github.com/Gitview/bin/fork.png"/>'+
 			    '&nbsp;<font color="#666;">'+obj.forks+'</font>',
 			href:'https://github.com/'+this.user+'/'+obj.name+'/network',
-			style:'position:relative;top:2px;margin-left:10px;text-decoration:none;margin-right:15px'
+			style:'position:relative;top:-3px;margin-left:10px;text-decoration:none;margin-right:15px'
 		},stats);
 		return top;
 	};

@@ -21,11 +21,13 @@ window.Gitview = function(args){
 			this.loadRepos();
 		}else{
 			var xhr = new XMLHttpRequest();
-			xhr.open("GET", 'https://api.github.com/users/'+this.user, true);
+			var proxy 	= "http://bitpshr.info/cdn/ba-simple-proxy.php";
+			var params 	= '?url=https://api.github.com/users/'+this.user;
+			xhr.open("GET", proxy+params, true);
 			xhr.onreadystatechange = function () {
 			    if(xhr.readyState==4 && xhr.status==200 ) {
 			    	// grab the data
-			    	var data = JSON.parse( xhr.responseText );
+			    	var data = JSON.parse( xhr.responseText ).contents;
 			    	if(window.sessionStorage){
 			    		window.sessionStorage["user_data"+this.user] = JSON.stringify(data);	
 			    	}
@@ -55,11 +57,14 @@ window.Gitview = function(args){
 		}else{
 			// Get repo info
 			var xhr = new XMLHttpRequest();
-			xhr.open("GET", 'https://api.github.com/users/'+this.user+'/repos', true);
+			var proxy 	= "http://bitpshr.info/cdn/ba-simple-proxy.php";
+			var params 	= "?url=https://api.github.com/users/"+this.user+"/repos";
+			xhr.open("GET", proxy+params, true);
 			xhr.onreadystatechange = function () {
 			    if(xhr.readyState==4 && xhr.status==200 ) {
 			    	// grab the data
-			    	var data = JSON.parse( xhr.responseText );
+			    	var data = JSON.parse( xhr.responseText ).contents;
+			    	console.log('data = ',data);
 			    	if(window.sessionStorage){
 			    		window.sessionStorage["repo_data"+this.user] = JSON.stringify(data);	
 			    	}

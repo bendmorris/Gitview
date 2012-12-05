@@ -303,13 +303,13 @@ var Gitview = (function (args) {
 				showName: false,
 				domNode : bottom,
 				width   : this._tmpW,
-				background: "gray",
 				allColor: "#EEEEEE",
 				userColor: "#BBBBBB",
 				height  : 80
 			});
-			graph.style.cssText = "margin-left:35px;position:absolute;top:0px;"
-			graph.style.marginLeft = "30px";
+			var tmpNode = bottom.firstChild;
+			tmpNode.style.cssText = "margin-left:35px;position:absolute;top:0px;"
+			tmpNode.style.marginLeft = "35px";
 			//Participation graph & last updated
 			// var updated = document.createElement("div");
 			// updated.innerHTML = 'Last updated '+this.fixUpdateDate(obj.pushed_at);
